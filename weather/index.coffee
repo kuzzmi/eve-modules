@@ -4,7 +4,7 @@ Q          = require 'q'
 Request    = require 'request'
 Forecast   = require './forecast'
 
-class Weather extends Module
+class WeatherModule extends Module
 
     forecast: ->
         deferred = Q.defer()
@@ -108,4 +108,4 @@ class Weather extends Module
                     .addNotification text
                     .send()
         
-module.exports = Weather
+module.exports = WeatherModule

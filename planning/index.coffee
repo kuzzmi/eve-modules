@@ -48,8 +48,6 @@ class PlanningModule extends Module
         
         API.query @query
             .then (response) =>
-                @Eve.logger.debug response
-
                 list   = []
                 tasks  = []
                 report = ['']
@@ -64,34 +62,35 @@ class PlanningModule extends Module
                         .addVoice phrase
                         .send()
 
-                tasks.map (task) ->
-                    taskString = ''
+                else
+                    tasks.map (task) ->
+                        taskString = ''
 
-                    if task.due_date
-                        duedate = moment new Date(task.due_date)
+                        if task.due_date
+                            duedate = moment new Date(task.due_date)
 
-                        if task.has_notification
-                            taskString += duedate.format 'MM/DD h:mm a' + ' '
-                        else
-                            taskString += duedate.format 'MM/DD' + ' '
-                        
-                        if duedate < new Date()
-                            taskString = taskString.red
-                        else
-                            taskString = taskString.green
+                            if task.has_notification
+                                taskString += duedate.format 'MM/DD h:mm a' + ' '
+                            else
+                                taskString += duedate.format 'MM/DD' + ' '
+                            
+                            if duedate < new Date()
+                                taskString = taskString.red
+                            else
+                                taskString = taskString.green
 
-                    taskString += task.content
+                        taskString += task.content
 
-                    report.push '    ' + taskString
-                    list.push task.content
+                        report.push '    ' + taskString
+                        list.push task.content
 
-                report.push '    Total: '.yellow + tasks.length.toString().yellow.bold
+                    report.push '    Total: '.yellow + tasks.length.toString().yellow.bold
 
-                @response
-                    .addText report.join '\r\n'
-                    .addVoice 'Here is a list of your tasks'
-                    .addNotification list
-                    .send()
+                    @response
+                        .addText report.join '\r\n'
+                        .addVoice 'Here is a list of your tasks'
+                        .addNotification list
+                        .send()
 
     remind: (token) ->
         item = 
@@ -103,12 +102,12 @@ class PlanningModule extends Module
         if @tag
             item.labels = JSON.stringify [config.labels[@tag].id]
 
-        @Eve.logger.debug item
+        @Eve.logger.debug "Adding new task #{item}"
 
         API.addItem item
             .then (item) =>
-                text = "I'll remind about #{item}"
-                
+                text = "I'll remind about #{item.content}"
+
                 @response
                     .addText text
                     .addVoice 'Reminder added'
