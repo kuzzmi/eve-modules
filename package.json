@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "eve": "git+ssh://git@bitbucket.org/kuzzmi/eve.git",
+    "colors": "^1.0.3",
     "moment": "^2.9.0",
     "node-todoist": "^0.3.2",
     "q": "^1.2.0",
-    "request": "^2.53.0"
+    "request": "^2.53.0",
+    "ssh-exec": "^0.3.3"
   },
   "devDependencies": {},
   "scripts": {

@@ -1,17 +1,17 @@
 exec = require 'ssh-exec'
 
-params = 
-    user     : 'pi'
-    host     : '192.168.0.9'
-    password : 'raspberry'
-
-connection = exec.connection params
-
-{ Module } = require 'eve'
+{ Module } = require '../../eve'
 
 class HomeModule extends Module
 
     led: (command) ->
+        params = 
+            user     : 'pi'
+            host     : '192.168.0.9'
+            password : 'raspberry'
+
+        connection = exec.connection params
+
         root = '/home/pi/bin/'
 
         com = switch command

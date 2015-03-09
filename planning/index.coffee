@@ -1,4 +1,4 @@
-{ Module } = require 'eve'
+{ Module } = require '../../eve'
 colors     = require 'colors'
 moment     = require 'moment'
 

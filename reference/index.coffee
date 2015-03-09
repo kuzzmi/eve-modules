@@ -1,4 +1,4 @@
-{ Module } = require 'eve'
+{ Module } = require '../../eve'
 
 class ReferenceModule extends Module
 

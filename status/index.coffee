@@ -1,4 +1,4 @@
-{ Module } = require 'eve'
+{ Module } = require '../../eve'
 Home       = require '../home'
 Weather    = require '../weather'
 Planning   = require '../planning'

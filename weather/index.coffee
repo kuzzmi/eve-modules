@@ -1,4 +1,4 @@
-{ Module } = require 'eve'
+{ Module } = require '../../eve'
 
 Q          = require 'q'
 Request    = require 'request'

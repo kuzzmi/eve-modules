@@ -1,4 +1,4 @@
-{ Module } = require 'eve'
+{ Module } = require '../eve'
 
 class TimeModule extends Module
     
