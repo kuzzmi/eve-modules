@@ -1,0 +1,12 @@
+{
+    "tasks": {
+        "count": {
+            "none": [
+                "You have no tasks, sir"
+            ],
+            "some": [
+                "You have {0} tasks, sir"
+            ]
+        }
+    }
+}

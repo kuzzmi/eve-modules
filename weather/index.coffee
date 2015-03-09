@@ -15,24 +15,20 @@ class Weather extends Module
             type = 'interval'
 
         url = 'http://api.openweathermap.org/data/2.5/'
-        params = {
-            q: @location,
-            units: 'metric',
-            cnt: '7'
-        }
+        params =
+            q     : @location
+            units : 'metric'
+            cnt   : '7'
 
         switch type
-            when 'second' 
-                url += 'weather'
-            when 'hour' or 'interval' 
-                url += 'forecast'
-            when 'day' 
-                url += 'forecast/daily'
+            when 'second' then url += 'weather'
+            when 'hour', 'interval' then url += 'forecast'
+            when 'day' then url += 'forecast/daily'
 
-        Request {
-            url: url,
-            qs: params
-        }, (err, resp, data) =>
+        Request
+            url : url
+            qs  : params
+        , (err, resp, data) =>
 
             try
                 data = JSON.parse resp.body

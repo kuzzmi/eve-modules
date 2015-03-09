@@ -1,6 +1,6 @@
 { Module } = require 'eve'
 
-class Reference extends Module
+class ReferenceModule extends Module
 
     exec: ->
         now   = new Date()
@@ -12,7 +12,7 @@ class Reference extends Module
             when 18 <= hours < 23 then 'evening'
             else 'night'
 
-        code = [ @params.reference_type.value ]
+        code = [ @reference_type.value ]
         args = [ 
             timeOfDay,
             [ 'sir', 'Igor' ] 
@@ -25,4 +25,4 @@ class Reference extends Module
             .addVoice phrase
             .send()        
 
-module.exports = Reference
+module.exports = ReferenceModule

@@ -1,6 +1,6 @@
 { Module } = require 'eve'
 
-class Time extends Module
+class TimeModule extends Module
     
     exec: ->
         date = date || new Date()
@@ -43,4 +43,4 @@ class Time extends Module
             .addVoice voice
             .send()
 
-module.exports = Time
+module.exports = TimeModule

@@ -1,7 +1,7 @@
 { Module } = require 'eve'
-# Home       = require '../home'
+Home       = require '../home'
 Weather    = require '../weather'
-# Planning   = require '../planning'
+Planning   = require '../planning'
 # External   = require 'eve-module-git'
 
 class StatusModule extends Module
@@ -26,7 +26,7 @@ class StatusModule extends Module
 
         @response
             .addText phrase
-            .addVoice phrase 
+            .addVoice phrase
         
         if action is 'update' and type is 'awake' and value is 'true'
             @response
@@ -34,12 +34,16 @@ class StatusModule extends Module
                 .send()
         
         if action is 'update' and type is 'athome' and value is 'true'
-            tasksAtHome = Planning.exec
-                planning_action : ['count']
-                planning_tag    : ['home']
+            tasksAtHome = Planning.exec 
+                planning_action : 'count'
+                planning_tag    : 'home'
                 
             @response
                 .addResponse tasksAtHome
                 .send()
+
+        Home.exec
+            home_device : 'led'
+            home_action : 'power'
 
 module.exports = StatusModule
