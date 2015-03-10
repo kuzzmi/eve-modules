@@ -5,6 +5,8 @@ exec = require 'ssh-exec'
 class HomeModule extends Module
 
     led: (command) ->
+        return
+
         params = 
             user     : 'pi'
             host     : '192.168.0.9'

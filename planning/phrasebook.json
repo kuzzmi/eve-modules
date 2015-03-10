@@ -7,6 +7,14 @@
             "some": [
                 "You have {0} tasks, sir"
             ]
-        }
+        },
+        "added": [
+            "I will remind you about {0}",
+            "I'll remind you about {0}",
+            "I've added a new task to your schedule",
+            "Task \"{0}\" was added",
+            "Done, sir",
+            "Reminder added"
+        ]
     }
 }

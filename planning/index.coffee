@@ -25,7 +25,7 @@ class PlanningModule extends Module
                     moment(@datetime.value).format 'YYYY-M-DDTHH:mm'
                 when 'interval'
                     moment(@datetime.to.value).format 'YYYY-M-DDTHH:mm'
-                when 'day' 
+                when 'day'
                     moment(@datetime.value).format 'DD MM'
         else
             @datetime = 'today'
@@ -106,11 +106,11 @@ class PlanningModule extends Module
 
         API.addItem item
             .then (item) =>
-                text = "I'll remind about #{item.content}"
+                text = @pick [ 'tasks', 'added' ], [ item.content ]
 
                 @response
                     .addText text
-                    .addVoice 'Reminder added'
+                    .addVoice text
                     .addNotification text
                     .send()
 
