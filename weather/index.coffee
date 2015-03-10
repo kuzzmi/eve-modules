@@ -33,7 +33,7 @@ class WeatherModule extends Module
             try
                 data = JSON.parse resp.body
             catch e
-                errorCallback e
+                deferred.reject e
             
 
             switch type
@@ -67,10 +67,8 @@ class WeatherModule extends Module
                 
                 when 'interval'
                     interval = {
-                        from: new Date @datetime.from.value 
-                            .getTime() // 1000,                            
-                        to: new Date @datetime.to.value 
-                            .getTime() // 1000
+                        from : new Date @datetime.from.value.getTime() // 1000,                            
+                        to   : new Date @datetime.to.value.getTime() // 1000
                     }
 
                     weather = data.list.filter((item) ->
@@ -79,17 +77,22 @@ class WeatherModule extends Module
 
                     weather = new Forecast weather, 'second';
 
-            deferred.resolve weather.toString
-                details: @details
-                verbosity: @verbosity
+            try
+                result = weather.toString
+                    details: @details
+                    verbosity: @verbosity
+
+                deferred.resolve result
+            catch error
+                deferred.reject error
 
         deferred.promise
 
     exec: ->
 
-        @details   = if @details   then   @details.value else 'all' 
-        @location  = if @location  then  @location.value else 'Basel' 
-        @verbosity = if @verbosity then @verbosity.value else null
+        @details   = if @weather_details   then   @weather_details.value else 'all' 
+        @verbosity = if @weather_verbosity then @weather_verbosity.value else null
+        @location  = if @location          then          @location.value else 'Basel' 
         
         @datetime ?= 
             type  : 'value'
@@ -102,10 +105,23 @@ class WeatherModule extends Module
                 
                 phrase = @pick voice.code, voice.args
 
+                text ||= phrase
+
+                @Eve.logger.debug voice
+
                 @response
                     .addText text
                     .addVoice phrase
                     .addNotification text
+                    .send()
+            , (error) =>
+
+                @Eve.logger.error "Error in getting weather: #{error.stack}"
+
+                pharse = "Error in getting weather"
+                @response
+                    .addText phrase
+                    .addVoice phrase
                     .send()
         
 module.exports = WeatherModule

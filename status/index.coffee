@@ -2,7 +2,6 @@
 Home       = require '../home'
 Weather    = require '../weather'
 Planning   = require '../planning'
-# External   = require 'eve-module-git'
 
 class StatusModule extends Module
     
