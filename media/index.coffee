@@ -1,4 +1,5 @@
 omdb   = require 'omdb'
+Q      = require 'q'
 colors = require 'colors'
 pos    = require 'pos'
 
@@ -13,41 +14,50 @@ class MediaModule extends Module
         @properties = if @media_properties then @media_properties.map (prop) -> return prop.value
 
     findMovie: ->
-        movies = [{
-            title: 'The Matrix'
-        }, {
-            title: 'The Matrix Reloaded'
-        }, {
-            title: 'The Matrix Revolutions'
-        }]
-        titles = movies.map (m) => m.title
-        return titles
+        search = Q.nbind omdb.search
+
+        search { s: @item, type: 'movie' }
+            .then (movies) =>                
+                return movies.map (m) => m.title
+            , (err) =>
+                @Eve.logger.debug "Fallback due to:\r\n#{err}"
+                movies = [{
+                    title: 'The Matrix'
+                }]
+                return movies.map (m) => m.title
 
     exec: ->
 
         @prepare()
 
         if not @metadata
-            titles = @findMovie()
 
-            if titles.length > 1
-                phrase = "I've found several movies"
-                @response
-                    .addText "#{phrase}: \r\n#{titles.join '\r\n'}"
-                    .addVoice "#{phrase}. Please select one"
-                    .send()
+            @findMovie()
+                .then (titles) =>
+                    if titles.length > 1
+                        phrase = "I've found several movies"
+                        @response
+                            .addText  "#{phrase}: \r\n#{titles.join '\r\n'}"
+                            .addVoice "#{phrase}. Please select one"
+                            .send()
 
-                @metadata = { titles }
+                        @metadata = { titles }
 
-                @Eve.waitForAction @
-            
-            if titles.length is 0
-                phrase = "Sorry, I found nothing. Are you sure you've asked for a real movie?"
-                @response
-                    .addText phrase
-                    .addVoice phrase
-                    .send()
+                        @Eve.waitForAction @
 
+                    if titles.length is 1
+                        phrase = "Prepare to watch \"#{titles[0]}\""
+                        @response
+                            .addText  "#{phrase}"
+                            .addVoice "#{phrase}"
+                            .send()
+                    
+                    if titles.length is 0
+                        phrase = "Sorry, I found nothing. Are you sure you've asked for a real movie?"
+                        @response
+                            .addText phrase
+                            .addVoice phrase
+                            .send()
             
         else
             movies      = @metadata.metadata.titles
@@ -69,12 +79,12 @@ class MediaModule extends Module
             found = -1;
 
             for ordinal in ordinals
-                for noun in nouns
+                for noun in nouns when nouns
                     if noun[0] is ordinal
                         found = ordinals.indexOf ordinal
                         break
 
-            if found is -1
+            if found is -1 and numbers.length > 0
                 found = parseInt(numbers[0][0]) - 1
 
             if movies[found]
