@@ -18,13 +18,13 @@ class MediaModule extends Module
         search = Q.nbind omdb.search
 
         search { s: @item, type: 'movie' }
-            .then (movies) ->                
-                return movies
+            .then (movies) -> movies
             , (err) =>
                 @Eve.logger.debug "Fallback due to:\r\n#{err}"
-                movies = [{
-                    title: 'The Matrix'
-                }]
+                # movies = [{
+                #     title: 'The Matrix'
+                # }]
+                movies = []
                 return movies
 
     exec: ->
@@ -33,23 +33,31 @@ class MediaModule extends Module
 
         if not @metadata
 
-            client = new PlexAPI '192.168.0.4'
+            # client = new PlexAPI '192.168.0.4'
 
-            client.query "/search?local=1&query=#{encodeURIComponent(@item)}"
-                .then (results) =>
-                    movies = results.video
-                    @Eve.logger.debug movies
-                    console.log(require('util').inspect(movies, true, 10, true))
-                    titles = movies.map (m) -> m.attributes.title
+            # client.query "/search?local=1&query=#{encodeURIComponent(@item)}"
+            #     .then (results) =>
+            #         movies = results.video
+            #         @Eve.logger.debug movies
+            #         console.log(require('util').inspect(movies, true, 10, true))
+            #         titles = movies.map (m) -> m.attributes.title
 
-            # @findMovie()
-            #     .then (movies) =>
-            #         titles = movies.map (m) -> m.title
+            @findMovie()
+                .then (movies) =>
+                    titles = movies.map (m) -> m.title
 
                     if titles.length > 1
                         phrase = "I've found several movies"
+
+                        report = [
+                            "     Year  Title".yellow.bold
+                        ]
+
+                        for movie in movies
+                            report.push "  #{i}  #{movie.year}  #{movie.title}"                        
+
                         @response
-                            .addText  "#{phrase}: \r\n#{titles.join '\r\n'}"
+                            .addText  "#{phrase}: \r\n#{report.join '\r\n'}"
                             .addVoice "#{phrase}. Please select one"
                             .send()
 
@@ -77,7 +85,8 @@ class MediaModule extends Module
             words       = new pos.Lexer().lex message
             taggedWords = new pos.Tagger().tag words
 
-            titles = movies.map (m) -> m.attributes.title
+            # titles = movies.map (m) -> m.attributes.title
+            titles = movies.map (m) -> m.title
 
             @Eve.logger.debug titles
 
@@ -107,7 +116,8 @@ class MediaModule extends Module
             @Eve.logger.debug found
 
             if movies[found]
-                phrase = "You've chosen: #{movies[found].attributes.title}"
+                # phrase = "You've chosen: #{movies[found].attributes.title}"
+                phrase = "You've chosen: #{movies[found].title}"
             else
                 phrase = "You've made wrong selection"
 
@@ -144,23 +154,15 @@ class MediaModule extends Module
 
             
         #     ###
-            
         #         Here I should start searching the movie in the local library
         #         and if wasn't found...
         #                                               You know what to do ;)
-
         #         May be we can try to create a separate module for downloading stuff?..
         #         Then it can be triggered somewhere else...
-
         #         Like: When #{MovieName} is release then remind me to download it
-                    
-
-
         #         https://www.npmjs.com/package/tortuga
         #         Take a look at this
-
         #         for music: https://github.com/jamon/playmusic
-
         #     ###
 
             

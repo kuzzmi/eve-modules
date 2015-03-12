@@ -7,28 +7,19 @@ Home       = require '../home'
 { Module } = require '../../eve'
 
 class GitModule extends Module
-
-    led: (to) ->
-        Home.exec
-            home_device : 'led'
-            home_action : to
-
+    
     push: ->
         versiony
             .from 'package.json'
             .patch()
             .to 'package.json'
-
-        @led 'green'
         
         git 'add -A'
             .then -> git 'commit -m "[Eve] Uploaded at ' + new Date() + '"'
             .then -> git 'push origin master'
             .then => 
-                @led 'white'
-
-                pkg = require './package.json'
-                phrase = 'Uploaded v' + pkg.version
+                info = versiony.end()
+                phrase = 'Uploaded v' + info.version
 
                 @response
                     .addText phrase
@@ -75,7 +66,7 @@ class GitModule extends Module
                 formatChange  renamed, 'Renamed'
                 formatChange   copied, 'Copied'
 
-                if report.length is 0 
+                if report.length is 0
                     report = 'Everything is up-to-date, sir'
 
                 @response

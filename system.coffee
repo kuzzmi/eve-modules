@@ -2,7 +2,7 @@ Path = require 'path'
 
 module.exports = (Eve) ->
 
-    Eve.respond /reload module (\w+)/, (msg) ->
+    reloadModule = (msg) ->
         moduleName = msg.match[1]
         module = Path.join(Eve.modulesPath, moduleName)
         delete require.cache[require.resolve(module)]
@@ -11,6 +11,9 @@ module.exports = (Eve) ->
             msg.send "Module #{moduleName} reloaded"
         catch e
             Eve.logger.error "Couldn't reload #{moduleName}: \r\n #{e.stack}"
+
+    Eve.respond /reload module (\w+)/, reloadModule
+    Eve.respond /reload (\w+) module/, reloadModule
 
     Eve.respond /reload all modules/, (msg) ->
         for module of require.cache

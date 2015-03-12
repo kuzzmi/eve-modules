@@ -48,8 +48,8 @@ class PlanningModule extends Module
         
         API.query @query
             .then (response) =>
-                list   = []
-                tasks  = []
+                list   = [  ]
+                tasks  = [  ]
                 report = ['']
 
                 response.map (item) -> tasks = tasks.concat item.data

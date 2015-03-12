@@ -67,8 +67,8 @@ class WeatherModule extends Module
                 
                 when 'interval'
                     interval = {
-                        from : new Date @datetime.from.value.getTime() // 1000,                            
-                        to   : new Date @datetime.to.value.getTime() // 1000
+                        from : new Date(@datetime.from.value).getTime() // 1000,
+                        to   : new Date(@datetime.to.value).getTime() // 1000
                     }
 
                     weather = data.list.filter((item) ->
