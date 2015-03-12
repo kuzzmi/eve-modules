@@ -1,7 +1,8 @@
-omdb   = require 'omdb'
-Q      = require 'q'
-colors = require 'colors'
-pos    = require 'pos'
+omdb    = require 'omdb'
+Q       = require 'q'
+colors  = require 'colors'
+pos     = require 'pos'
+PlexAPI = require 'plex-api'
 
 { Module } = require '../../eve'
 
@@ -17,14 +18,14 @@ class MediaModule extends Module
         search = Q.nbind omdb.search
 
         search { s: @item, type: 'movie' }
-            .then (movies) =>                
-                return movies.map (m) => m.title
+            .then (movies) ->                
+                return movies
             , (err) =>
                 @Eve.logger.debug "Fallback due to:\r\n#{err}"
                 movies = [{
                     title: 'The Matrix'
                 }]
-                return movies.map (m) => m.title
+                return movies
 
     exec: ->
 
@@ -32,8 +33,19 @@ class MediaModule extends Module
 
         if not @metadata
 
-            @findMovie()
-                .then (titles) =>
+            client = new PlexAPI '192.168.0.4'
+
+            client.query "/search?local=1&query=#{encodeURIComponent(@item)}"
+                .then (results) =>
+                    movies = results.video
+                    @Eve.logger.debug movies
+                    console.log(require('util').inspect(movies, true, 10, true))
+                    titles = movies.map (m) -> m.attributes.title
+
+            # @findMovie()
+            #     .then (movies) =>
+            #         titles = movies.map (m) -> m.title
+
                     if titles.length > 1
                         phrase = "I've found several movies"
                         @response
@@ -41,7 +53,7 @@ class MediaModule extends Module
                             .addVoice "#{phrase}. Please select one"
                             .send()
 
-                        @metadata = { titles }
+                        @metadata = { movies }
 
                         @Eve.waitForAction @
 
@@ -60,10 +72,14 @@ class MediaModule extends Module
                             .send()
             
         else
-            movies      = @metadata.metadata.titles
+            movies      = @metadata.metadata.movies
             message     = @metadata.message                        
             words       = new pos.Lexer().lex message
             taggedWords = new pos.Tagger().tag words
+
+            titles = movies.map (m) -> m.attributes.title
+
+            @Eve.logger.debug titles
 
             ordinals = [
                 "first"
@@ -87,8 +103,11 @@ class MediaModule extends Module
             if found is -1 and numbers.length > 0
                 found = parseInt(numbers[0][0]) - 1
 
+            @Eve.logger.debug movies
+            @Eve.logger.debug found
+
             if movies[found]
-                phrase = "You've chosen: #{movies[found]}"
+                phrase = "You've chosen: #{movies[found].attributes.title}"
             else
                 phrase = "You've made wrong selection"
 
