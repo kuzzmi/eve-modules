@@ -41,7 +41,7 @@ class WeatherModule extends Module
                     weather = new Forecast data, type
 
                 when 'day'
-                    today = new Date();
+                    today = new Date()
 
                     day = new Date @datetime.value
                     diff = new Date(day - today)
@@ -63,7 +63,7 @@ class WeatherModule extends Module
                         item.dt <= ut && ut - item.dt < 10800;
                     )[0]
 
-                    weather = new Forecast weather, 'second';
+                    weather = new Forecast weather, 'second'
                 
                 when 'interval'
                     interval = {
@@ -72,7 +72,7 @@ class WeatherModule extends Module
                     }
 
                     weather = data.list.filter((item) ->
-                        item.dt > interval.from && item.dt < interval.to;
+                        item.dt > interval.from && item.dt < interval.to
                     )[0]
 
                     weather = new Forecast weather, 'second';

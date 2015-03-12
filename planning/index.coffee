@@ -1,11 +1,23 @@
 { Module } = require '../../eve'
 colors     = require 'colors'
 moment     = require 'moment'
+CronJob    = require('cron').CronJob
 
 API        = require './api'
 config     = require './config'
 
 class PlanningModule extends Module
+
+    attach: ->
+
+        job = new CronJob '00 30 17 * * 1-5', =>
+            @setValue 'planning_action', 'count'
+            @setValue    'planning_tag', 'shop'
+            
+            @exec()
+
+        job.start()
+
 
     prepare: ->
         @action   = @getValue 'planning_action'
@@ -32,6 +44,13 @@ class PlanningModule extends Module
 
     exec: ->
         @prepare()
+
+        @Eve.logger.debug {
+            @action  
+            @item    
+            @priority
+            @tag     
+        }
 
         promise = @login().then (token) => @[@action](token)
 
@@ -132,11 +151,12 @@ class PlanningModule extends Module
                 code = [ 'tasks', 'count' ]
                 code.push if amount is 0 then 'none' else 'some'
 
-                phrase = @pick code, amount
+                phrase = @pick code, [ amount, @tag ]
 
                 @response
                     .addText phrase
                     .addVoice phrase
+                    .addNotification phrase
                     .send()
 
 module.exports = PlanningModule

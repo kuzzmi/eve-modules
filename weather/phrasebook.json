@@ -1,8 +1,8 @@
 {
     "second": {
         "all": [
-            "In {0} now it is {1} degrees and {2}",
-            "It is {1} degrees and {2} now in {0}"
+            "In {0} it is {1} degrees and {2}",
+            "It is {1} degrees and {2} in {0}"
         ],
         "temperature": {
             "general": [

@@ -18,7 +18,8 @@ class MediaModule extends Module
         search = Q.nbind omdb.search
 
         search { s: @item, type: 'movie' }
-            .then (movies) -> movies
+            .then (movies) -> 
+                movies
             , (err) =>
                 @Eve.logger.debug "Fallback due to:\r\n#{err}"
                 # movies = [{

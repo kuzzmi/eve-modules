@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "colors": "^1.0.3",
+    "cron": "^1.0.9",
     "git-promise": "^0.2.0",
     "moment": "^2.9.0",
     "node-todoist": "^0.3.2",
