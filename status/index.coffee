@@ -22,15 +22,10 @@ class StatusModule extends Module
         args = [  'sir',  timeOfDay  ]
 
         phrase = @pick code, args
-
-        @response
-            .addText phrase
-            .addVoice phrase
         
         if action is 'update' and type is 'awake' and value is 'true'
             @response
                 .addResponse Weather.exec()
-                .send()
         
         if action is 'update' and type is 'athome' and value is 'true'
             tasksAtHome = Planning.exec 
@@ -39,7 +34,11 @@ class StatusModule extends Module
                 
             @response
                 .addResponse tasksAtHome
-                .send()
+
+        @response
+            .addText phrase
+            .addVoice phrase
+            .send()
 
         Home.exec
             home_device : 'led'

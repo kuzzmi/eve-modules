@@ -14,7 +14,7 @@ class MediaModule extends Module
         @type       = @getValue 'media_type'
         @properties = if @media_properties then @media_properties.map (prop) -> return prop.value
 
-    findMovie: ->
+    findMovieOMDB: ->
         search = Q.nbind omdb.search
 
         search { s: @item, type: 'movie' }
@@ -26,7 +26,17 @@ class MediaModule extends Module
                 #     title: 'The Matrix'
                 # }]
                 movies = []
-                return movies
+                movies
+
+    findMoviePlex: ->
+        client = new PlexAPI '192.168.0.4'
+
+        client.query "/search?local=1&query=#{encodeURIComponent(@item)}"
+            .then (results) =>
+                movies = results.video
+                # @Eve.logger.debug movies
+                # console.log(require('util').inspect(movies, true, 10, true))
+                movies
 
     exec: ->
 
@@ -34,18 +44,18 @@ class MediaModule extends Module
 
         if not @metadata
 
-            # client = new PlexAPI '192.168.0.4'
-
-            # client.query "/search?local=1&query=#{encodeURIComponent(@item)}"
-            #     .then (results) =>
-            #         movies = results.video
-            #         @Eve.logger.debug movies
-            #         console.log(require('util').inspect(movies, true, 10, true))
-            #         titles = movies.map (m) -> m.attributes.title
-
-            @findMovie()
+            @findMoviePlex()
                 .then (movies) =>
-                    titles = movies.map (m) -> m.title
+                    if not movies
+                        return @findMovieOMDB()
+                            .then (movies) ->
+                               return { movies, titles: movies.map (m) -> m.title }
+                    else
+                        return { movies, titles: movies.map (m) -> m.attributes.title }
+                .then (result) =>
+
+                    movies = result.movies
+                    titles = result.titles
 
                     if titles.length > 1
                         phrase = "I've found several movies"
@@ -54,8 +64,12 @@ class MediaModule extends Module
                             "     Year  Title".yellow.bold
                         ]
 
-                        for movie in movies
-                            report.push "  #{i}  #{movie.year}  #{movie.title}"                        
+                        for movie, index in movies
+                            @Eve.logger.debug movie
+
+                            year  = if movie.attributes then  movie.attributes.year else movie.year
+                            title = if movie.attributes then movie.attributes.title else movie.title
+                            report.push "  #{index + 1}  #{year}  #{title}"                        
 
                         @response
                             .addText  "#{phrase}: \r\n#{report.join '\r\n'}"
@@ -72,13 +86,15 @@ class MediaModule extends Module
                             .addText  "#{phrase}"
                             .addVoice "#{phrase}"
                             .send()
-                    
+
                     if titles.length is 0
                         phrase = "Sorry, I found nothing. Are you sure you've asked for a real movie?"
                         @response
                             .addText phrase
                             .addVoice phrase
                             .send()
+                .catch (err) =>
+                    @Eve.logger.error err.stack
             
         else
             movies      = @metadata.metadata.movies
@@ -113,12 +129,11 @@ class MediaModule extends Module
             if found is -1 and numbers.length > 0
                 found = parseInt(numbers[0][0]) - 1
 
-            @Eve.logger.debug movies
-            @Eve.logger.debug found
-
             if movies[found]
+                movie = movies[found]
+                title = if movie.attributes then movie.attributes.title else movie.title
                 # phrase = "You've chosen: #{movies[found].attributes.title}"
-                phrase = "You've chosen: #{movies[found].title}"
+                phrase = "You've chosen: #{title}"
             else
                 phrase = "You've made wrong selection"
 
