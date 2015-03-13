@@ -10,7 +10,7 @@ class PlanningModule extends Module
 
     attach: ->
 
-        job = new CronJob '00 30 17 * * 1-5', =>
+        job = new CronJob '00 45 17 * * 1-5', =>
             @setValue 'planning_action', 'count'
             @setValue    'planning_tag', 'shop'
             

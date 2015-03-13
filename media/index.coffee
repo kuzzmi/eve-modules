@@ -4,6 +4,10 @@ colors  = require 'colors'
 pos     = require 'pos'
 PlexAPI = require 'plex-api'
 
+Home    = require '../home'
+
+Movie = require './models/movie'
+
 { Module } = require '../../eve'
 
 class MediaModule extends Module
@@ -15,10 +19,12 @@ class MediaModule extends Module
         @properties = if @media_properties then @media_properties.map (prop) -> return prop.value
 
     findMovieOMDB: ->
-        search = Q.nbind omdb.search
+        search = Q.nbind omdb.get
 
-        search { s: @item, type: 'movie' }
-            .then (movies) -> 
+        search { title: @item, type: 'movie' }
+            .then (movies) =>
+                @Eve.logger.debug movies
+                
                 movies
             , (err) =>
                 @Eve.logger.debug "Fallback due to:\r\n#{err}"
@@ -34,78 +40,93 @@ class MediaModule extends Module
         client.query "/search?local=1&query=#{encodeURIComponent(@item)}"
             .then (results) =>
                 movies = results.video
-                # @Eve.logger.debug movies
-                # console.log(require('util').inspect(movies, true, 10, true))
                 movies
+
+    findMovie: ->
+        # @findMoviePlex()
+        #     .then(
+        #         (movies) => if not movies then return @findMovieOMDB() else return movies, 
+        #         (error) => return @findMovieOMDB()
+        #     )
+        @findMovieOMDB()
+            .then (movies) =>
+                if movies instanceof Array
+                    movies
+                        .map (m) -> new Movie(m)                    
+                        .sort (m1, m2) -> +m1.year - +m2.year
+                else if movies?
+                    @Eve.logger.debug movies
+                    [ new Movie movies ]
+                else 
+                    []
+
+            .then (movies) =>
+
+                if movies.length > 1
+                    phrase = "I've found several movies"
+
+                    report = [ "     Year  Title".yellow.bold ]
+
+                    for movie, index in movies
+                        { year, title } = movie
+                        report.push "  #{index + 1}  #{year}  #{title}"
+
+                    @response
+                        .addText  "#{phrase}: \r\n#{report.join '\r\n'}"
+                        .addVoice "#{phrase}. Please select one"
+                        .send()
+
+                    @metadata = { movies }
+
+                    @Eve.waitForAction @
+
+                if movies.length is 1
+                    phrase = "Prepare to watch \"#{movies[0].title}\""
+                    @response
+                        .addText  "#{phrase}"
+                        .addVoice "#{phrase}"
+                        .send()
+
+                if movies.length is 0
+                    phrase = "Sorry, I found nothing. Are you sure you've asked for a real movie?"
+                    @response
+                        .addText phrase
+                        .addVoice phrase
+                        .send()
+            .catch (err) =>
+                @Eve.logger.error err.stack
+
+    turnOn: (movie) ->
+
+        phrase = "Prepare to watch \"#{movie.title}\""
+        
+        home = Home.exec
+            home_device: "theater"
+            home_action: "on"
+
+        @response
+            .addText  "#{phrase}"
+            .addVoice "#{phrase}"
+            .addResponse home
+            .send()
 
     exec: ->
 
         @prepare()
 
         if not @metadata
-
-            @findMoviePlex()
-                .then (movies) =>
-                    if not movies
-                        return @findMovieOMDB()
-                            .then (movies) ->
-                               return { movies, titles: movies.map (m) -> m.title }
-                    else
-                        return { movies, titles: movies.map (m) -> m.attributes.title }
-                .then (result) =>
-
-                    movies = result.movies
-                    titles = result.titles
-
-                    if titles.length > 1
-                        phrase = "I've found several movies"
-
-                        report = [
-                            "     Year  Title".yellow.bold
-                        ]
-
-                        for movie, index in movies
-                            @Eve.logger.debug movie
-
-                            year  = if movie.attributes then  movie.attributes.year else movie.year
-                            title = if movie.attributes then movie.attributes.title else movie.title
-                            report.push "  #{index + 1}  #{year}  #{title}"                        
-
-                        @response
-                            .addText  "#{phrase}: \r\n#{report.join '\r\n'}"
-                            .addVoice "#{phrase}. Please select one"
-                            .send()
-
-                        @metadata = { movies }
-
-                        @Eve.waitForAction @
-
-                    if titles.length is 1
-                        phrase = "Prepare to watch \"#{titles[0]}\""
-                        @response
-                            .addText  "#{phrase}"
-                            .addVoice "#{phrase}"
-                            .send()
-
-                    if titles.length is 0
-                        phrase = "Sorry, I found nothing. Are you sure you've asked for a real movie?"
-                        @response
-                            .addText phrase
-                            .addVoice phrase
-                            .send()
-                .catch (err) =>
-                    @Eve.logger.error err.stack
+            switch @action
+                when 'turn on'
+                    @findMovie().then (movie) =>
+                        if movie and movie instanceof Movie then @turnOn movie
             
         else
             movies      = @metadata.metadata.movies
-            message     = @metadata.message                        
+            message     = @metadata.message
             words       = new pos.Lexer().lex message
             taggedWords = new pos.Tagger().tag words
 
             # titles = movies.map (m) -> m.attributes.title
-            titles = movies.map (m) -> m.title
-
-            @Eve.logger.debug titles
 
             ordinals = [
                 "first"
@@ -131,21 +152,14 @@ class MediaModule extends Module
 
             if movies[found]
                 movie = movies[found]
-                title = if movie.attributes then movie.attributes.title else movie.title
-                # phrase = "You've chosen: #{movies[found].attributes.title}"
-                phrase = "You've chosen: #{title}"
+                @turnOn movie
+                # phrase = "You've chosen: #{movie.title}"
             else
                 phrase = "You've made wrong selection"
 
-            @response
-                .addText phrase
-                .addVoice phrase
-                .send()
-
-            # @Eve.logger.debug taggedWords
-
             # @response
-            #     .addText "I remember about these movies: \r\n#{movies.join '\r\n'}"
+            #     .addText phrase
+            #     .addVoice phrase
             #     .send()
 
 ###
@@ -169,17 +183,19 @@ class MediaModule extends Module
         #         ].join '\r\n'
 
             
-        #     ###
-        #         Here I should start searching the movie in the local library
-        #         and if wasn't found...
-        #                                               You know what to do ;)
-        #         May be we can try to create a separate module for downloading stuff?..
-        #         Then it can be triggered somewhere else...
-        #         Like: When #{MovieName} is release then remind me to download it
-        #         https://www.npmjs.com/package/tortuga
-        #         Take a look at this
-        #         for music: https://github.com/jamon/playmusic
-        #     ###
+        ####
+        #
+        #    Here I should start searching the movie in the local library
+        #    and if wasn't found...
+        #                                          You know what to do ;)
+        #    May be we can try to create a separate module for downloading stuff?..
+        #    Then it can be triggered somewhere else...
+        #    Like: When #{MovieName} is release then remind me to download it
+        #    https://www.npmjs.com/package/tortuga
+        #    Take a look at this
+        #    for music: https://github.com/jamon/playmusic
+        #    
+        ####
 
             
 

@@ -14,7 +14,7 @@ class WeatherModule extends Module
         if @datetime.type is 'interval' 
             type = 'interval'
 
-        url = 'http://api.openweathermap.org/data/2.5/'
+        url    = 'http://api.openweathermap.org/data/2.5/'
         params =
             q     : @location
             units : 'metric'
@@ -34,7 +34,6 @@ class WeatherModule extends Module
                 data = JSON.parse resp.body
             catch e
                 deferred.reject e
-            
 
             switch type
                 when 'second'
@@ -71,9 +70,14 @@ class WeatherModule extends Module
                         to   : new Date(@datetime.to.value).getTime() // 1000
                     }
 
-                    weather = data.list.filter((item) ->
-                        item.dt > interval.from && item.dt < interval.to
-                    )[0]
+                    @Eve.logger.debug data.city
+
+                    weather = data.list.map((item) -> 
+                            item.name = data.city.name; 
+                            item
+                        ).filter((item) ->
+                            item.dt > interval.from && item.dt < interval.to
+                        )[0]
 
                     weather = new Forecast weather, 'second';
 

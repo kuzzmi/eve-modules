@@ -1,17 +1,20 @@
 exec = require 'ssh-exec'
 
-{ Module } = require '../../eve'
+{ Module, Config } = require '../../eve'
 
-raspberry = 
-    user     : 'pi'
-    host     : '192.168.0.9'
-    password : 'raspberry'
+###
+
+    "raspberry": {
+        "user": "pi"
+        "host": "192.168.0.9"
+        "password": "raspberry"
+    }
+
+###
 
 class HomeModule extends Module
 
     led: (command) ->
-
-        connection = exec.connection raspberry
 
         root = '/home/pi/bin/'
 
@@ -20,18 +23,34 @@ class HomeModule extends Module
             when 'dim'    then 'led-dim'
             else 'led ' + command
         
-        exec root + com, connection
-            .pipe(process.stdout)
+        if not Config.raspberry
+            phrase = "And here #{@device} has to #{@action}"
+            @response
+                .addText phrase
+                .send()
+        else
+            connection = exec.connection raspberry
+            
+            exec root + com, connection
+                .pipe(process.stdout)
 
     theater: (command) ->
-        connection = exec.connection raspberry
 
         root = '/home/pi/bin/'
 
         com = "theater_#{command}"
         
-        exec root + com, connection
-            .pipe(process.stdout)
+        if not Config.raspberry
+            phrase = "And here #{@device} has to turn #{@action}"
+            @response
+                .addText phrase
+                .addVoice phrase
+                .send()
+        else
+            connection = exec.connection raspberry
+
+            exec root + com, connection
+                .pipe(process.stdout)
     
     exec: ->
 

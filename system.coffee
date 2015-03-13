@@ -12,8 +12,8 @@ module.exports = (Eve) ->
         catch e
             Eve.logger.error "Couldn't reload #{moduleName}: \r\n #{e.stack}"
 
-    Eve.respond /reload module (\w+)/, reloadModule
-    Eve.respond /reload (\w+) module/, reloadModule
+    Eve.respond /reload module (\w+)$/, reloadModule
+    Eve.respond /reload (\w+) module$/, reloadModule
 
     Eve.respond /reload all modules/, (msg) ->
         for module of require.cache

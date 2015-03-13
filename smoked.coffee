@@ -25,7 +25,7 @@ module.exports = (Eve) ->
 
             msg.send response
         else
-            msg.send "I don't know"
+            msg.send "Do you smoke? Really?"
 
     Eve.respond /I('m| am)? go(ing)?( to)? smok(e|ing)/i, (msg) ->
         Eve.memory.data.smokedLast = new Date()
@@ -33,4 +33,4 @@ module.exports = (Eve) ->
 
     Eve.respond /forget about smok(e|ing)/i, (msg) ->
         Eve.memory.data.smokedLast = null
-        msg.send "Let's pretend you've never smoked. Okay."
+        msg.send "Let's pretend you've never smoked."
