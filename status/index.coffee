@@ -24,13 +24,47 @@ class StatusModule extends Module
         phrase = @pick code, args
         
         if action is 'update' and type is 'awake' and value is 'true'
+            Home.exec
+                home_device : 'screen'
+                home_action : 'on'
+
+            Home.exec
+                home_device : 'led'
+                home_action : 'on'
+
             @response
                 .addResponse Weather.exec()
+
+        if action is 'update' and type is 'awake' and value is 'false'
+            Home.exec
+                home_device : 'screen'
+                home_action : 'off'
+
+            Home.exec
+                home_device : 'projscreen'
+                home_action : 'up'
+
+            Home.exec
+                home_device : 'projector'
+                home_action : 'off'
+
+            Home.exec
+                home_device : 'led'
+                home_action : 'off'
+        
+        if action is 'update' and type is 'athome' and value is 'false'
+            Home.exec
+                home_device : 'led'
+                home_action : 'off'
         
         if action is 'update' and type is 'athome' and value is 'true'
             tasksAtHome = Planning.exec 
                 planning_action : 'count'
                 planning_tag    : 'home'
+
+            Home.exec
+                home_device : 'led'
+                home_action : 'on'
                 
             @response
                 .addResponse tasksAtHome
@@ -39,9 +73,5 @@ class StatusModule extends Module
             .addText phrase
             .addVoice phrase
             .send()
-
-        Home.exec
-            home_device : 'led'
-            home_action : 'power'
 
 module.exports = StatusModule

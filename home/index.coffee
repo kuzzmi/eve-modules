@@ -1,4 +1,5 @@
 exec = require 'ssh-exec'
+spawn = require('child_process').spawn
 
 { Module, Config } = require '../../eve'
 
@@ -14,44 +15,55 @@ exec = require 'ssh-exec'
 
 class HomeModule extends Module
 
-    led: (command) ->
-
-        root = '/home/pi/bin/'
-
-        com = switch command
-            when 'bright' then 'led-bright'
-            when 'dim'    then 'led-dim'
-            else 'led ' + command
-        
+    sshCommand: (command, root='/home/pi/bin/') ->
         if not Config.raspberry
             phrase = "And here #{@device} has to #{@action}"
             @response
                 .addText phrase
                 .send()
         else
-            connection = exec.connection raspberry
-            
-            exec root + com, connection
+            connection = exec.connection Config.raspberry
+                
+            exec root + command, connection
                 .pipe(process.stdout)
+
+    led: (command) ->
+        com = switch command
+            when 'bright' then 'led-bright'
+            when 'dim'    then 'led-dim'
+            else 'led ' + command
+
+        @sshCommand com
+
+    projector: (command) ->
+        com = "proj#{command}"
+        
+        @sshCommand com
+
+    projscreen: (command) ->
+        com = "screen#{command}"
+        
+        @sshCommand com
 
     theater: (command) ->
-
-        root = '/home/pi/bin/'
-
         com = "theater_#{command}"
         
-        if not Config.raspberry
-            phrase = "And here #{@device} has to turn #{@action}"
-            @response
-                .addText phrase
-                .addVoice phrase
-                .send()
-        else
-            connection = exec.connection raspberry
-
-            exec root + com, connection
-                .pipe(process.stdout)
+        @sshCommand com
     
+    vlc: (source) ->
+        source = decodeURIComponent source
+
+        spawn 'vlc', [ source, '--audio-language=en', '--fullscreen' ]
+        return @response
+
+    screen: (command) ->
+
+        setTimeout =>
+            spawn 'xset', "dpms force #{command}".split ' '
+        , 5000
+                
+        return @response
+
     exec: ->
 
         @device = @getValue 'home_device'

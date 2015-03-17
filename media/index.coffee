@@ -43,13 +43,14 @@ class MediaModule extends Module
                 movies
 
     findMovie: ->
-        # @findMoviePlex()
-        #     .then(
-        #         (movies) => if not movies then return @findMovieOMDB() else return movies, 
-        #         (error) => return @findMovieOMDB()
-        #     )
-        @findMovieOMDB()
+        # @findMovieOMDB()
+        @findMoviePlex()
+            .then(
+                (movies) => if not movies then return @findMovieOMDB() else return movies, 
+                (error) => return @findMovieOMDB()
+            )
             .then (movies) =>
+
                 if movies instanceof Array
                     movies
                         .map (m) -> new Movie(m)                    
@@ -66,14 +67,17 @@ class MediaModule extends Module
                     phrase = "I've found several movies"
 
                     report = [ "     Year  Title".yellow.bold ]
+                    notification = []
 
                     for movie, index in movies
                         { year, title } = movie
                         report.push "  #{index + 1}  #{year}  #{title}"
+                        notification.push "#{year} #{title}"
 
                     @response
                         .addText  "#{phrase}: \r\n#{report.join '\r\n'}"
                         .addVoice "#{phrase}. Please select one"
+                        .addNotification notification
                         .send()
 
                     @metadata = { movies }
@@ -81,11 +85,7 @@ class MediaModule extends Module
                     @Eve.waitForAction @
 
                 if movies.length is 1
-                    phrase = "Prepare to watch \"#{movies[0].title}\""
-                    @response
-                        .addText  "#{phrase}"
-                        .addVoice "#{phrase}"
-                        .send()
+                    @turnOn movies[0]
 
                 if movies.length is 0
                     phrase = "Sorry, I found nothing. Are you sure you've asked for a real movie?"
@@ -103,6 +103,13 @@ class MediaModule extends Module
         home = Home.exec
             home_device: "theater"
             home_action: "on"
+
+        seconds = 15
+        setTimeout () ->
+            Home.exec
+                home_device: "vlc"
+                home_action: movie.file
+        , seconds * 1000
 
         @response
             .addText  "#{phrase}"

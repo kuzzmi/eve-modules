@@ -45,13 +45,6 @@ class PlanningModule extends Module
     exec: ->
         @prepare()
 
-        @Eve.logger.debug {
-            @action  
-            @item    
-            @priority
-            @tag     
-        }
-
         promise = @login().then (token) => @[@action](token)
 
         return promise
