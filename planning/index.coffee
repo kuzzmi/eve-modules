@@ -1,5 +1,5 @@
 { Module } = require '../../eve'
-colors     = require 'colors'
+colors     = require 'colors/safe'
 moment     = require 'moment'
 CronJob    = require('cron').CronJob
 
@@ -81,28 +81,30 @@ class PlanningModule extends Module
                         if task.due_date
                             duedate = moment new Date(task.due_date)
 
-                            if task.has_notification
+                            if task.has_notification || !!~(task.date_string.indexOf '@')
                                 taskString += duedate.format 'MM/DD h:mm a' + ' '
                             else
                                 taskString += duedate.format 'MM/DD' + ' '
                             
                             if duedate < new Date()
-                                taskString = taskString.red
+                                taskString = colors.red(taskString)
                             else
-                                taskString = taskString.green
+                                taskString = colors.green(taskString)
 
                         taskString += task.content
 
                         report.push '    ' + taskString
                         list.push task.content
 
-                    report.push '    Total: '.yellow + tasks.length.toString().yellow.bold
+                    report.push colors.yellow('    Total: ' + colors.bold(tasks.length.toString()))
 
                     @response
                         .addText report.join '\r\n'
                         .addVoice 'Here is a list of your tasks'
                         .addNotification list
                         .send()
+
+                    @Eve.memory.set 'planning', list
 
     remind: (token) ->
         item = 

@@ -14,7 +14,6 @@ Dell 2005FPW 20.1" LCD flat screen monitor w/ cords
 
 ###
 
-colors = require 'colors'
 Base   = require './base'
 
 class Monitor extends Base

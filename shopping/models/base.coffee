@@ -1,5 +1,5 @@
 Q      = require 'q'
-colors = require 'colors'
+colors = require 'colors/safe'
 ebay   = require 'ebay-api'
 
 class BaseModel
@@ -42,9 +42,9 @@ class BaseModel
             spaces + string
 
         if value
-            formatted = (prependWithSpaces(key, 15) + ': ').yellow + value
+            formatted = colors.yellow(prependWithSpaces(key, 10) + ': ') + value
         else
-            formatted = prependWithSpaces(key, 15).yellow
+            formatted = colors.yellow(prependWithSpaces(key, 10))
 
     getShippingInfo: ->
         # ebay.ebayApiGetRequest {
@@ -82,15 +82,15 @@ class BaseModel
             report = report.concat details
         
         report.push @formatProperty '====='
-        report.push @formatProperty 'Type', @type.bold
+        report.push @formatProperty 'Type', colors(@type)
         if @BINprice
-            report.push @formatProperty 'Price', @price.green.bold
-            report.push @formatProperty 'Buy It Now', @BINprice.yellow.bold
+            report.push @formatProperty 'Price', colors.green(@price)
+            report.push @formatProperty 'Buy It Now', colors.yellow(@BINprice)
         else
             if @listingType is 'Auction'
-                report.push @formatProperty 'Price', @price.green.bold
+                report.push @formatProperty 'Price', colors.green(@price)
             else
-                report.push @formatProperty 'Price', @price.yellow.bold
+                report.push @formatProperty 'Price', colors.yellow(@price)
         report.push @formatProperty 'Link', @link
 
         report.push ''

@@ -1,5 +1,5 @@
 Q          = require 'q'
-colors     = require 'colors'
+colors     = require 'colors/safe'
 ebay       = require 'ebay-api'
 BaseModule = require '../base'
 Categories = require './categories.json'

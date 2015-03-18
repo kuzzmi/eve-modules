@@ -40,7 +40,6 @@ itemId: '331487549500',
 
 ###
 
-colors = require 'colors'
 Base   = require './base'
 
 class Smartphone extends Base
