@@ -27,6 +27,10 @@ class PlanningModule extends Module
 
         @query = []
 
+        if @ordinal
+            @ordinal = @stimulus.entities.ordinal.map (item) ->
+                item.value
+
         if @datetime
             type = switch @datetime.type
                 when 'value'    then @datetime.grain
@@ -75,7 +79,11 @@ class PlanningModule extends Module
                         .send()
 
                 else
+                    memory = []
                     tasks.map (task) ->
+                        { id, content } = task
+                        _task = { id, content }
+                        memory.push _task
                         taskString = ''
 
                         if task.due_date
@@ -104,7 +112,27 @@ class PlanningModule extends Module
                         .addNotification list
                         .send()
 
-                    @Eve.memory.set 'planning', list
+                    @Eve.memory.set 'planning', memory
+
+    done: (token) ->
+
+        memory = @Eve.memory.get 'planning'
+
+        items = 
+            ids: []
+            token: token
+
+        for i in @ordinal
+            if memory[i - 1]
+                items.ids.push memory[i - 1].id
+
+        API.completeItems items
+            .then (response) =>
+                @response
+                    .addText 'Good job, sir'
+                    .addVoice 'Good job, sir'
+                    .addResponse PlanningModule.exec({planning_action: 'report'})
+                    .send()
 
     remind: (token) ->
         item = 

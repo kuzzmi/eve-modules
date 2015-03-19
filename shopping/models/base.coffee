@@ -47,27 +47,27 @@ class BaseModel
             formatted = colors.yellow(prependWithSpaces(key, 10))
 
     getShippingInfo: ->
-        # ebay.ebayApiGetRequest {
-        #     'serviceName': 'Shopping',
-        #     'opType': 'GetSingleItem',
-        #     'appId': 'IgorKuzm-e6eb-4580-8a63-f7a888125783',
+        ebay.ebayApiGetRequest {
+            'serviceName': 'Shopping',
+            'opType': 'GetSingleItem',
+            'appId': 'IgorKuzm-e6eb-4580-8a63-f7a888125783',
 
-        #     params: {
-        #         'ItemId': '1234567890'
-        #     }
-        # }, (error, data) ->
-        #     if error then throw error
-        #     console.dir(data);
-        # console.log @id
-        # request = 
-        #     serviceName : 'Shopping'
-        #     opType      : 'GetShippingCosts'
-        #     appId       : 'IgorKuzm-e6eb-4580-8a63-f7a888125783'
-        #     params      : 
-        #         ItemId: @id
+            params: {
+                'ItemId': '1234567890'
+            }
+        }, (error, data) ->
+            if error then throw error
+            console.dir(data);
+        console.log @id
+        request = 
+            serviceName : 'Shopping'
+            opType      : 'GetShippingCosts'
+            appId       : 'IgorKuzm-e6eb-4580-8a63-f7a888125783'
+            params      : 
+                ItemId: @id
 
-        # ebay.ebayApiGetRequest request, (err, data) ->
-        #     console.log data
+        ebay.ebayApiGetRequest request, (err, data) ->
+            console.log data
 
     summarize: (details) ->
         deferred = Q.defer()
@@ -82,7 +82,7 @@ class BaseModel
             report = report.concat details
         
         report.push @formatProperty '====='
-        report.push @formatProperty 'Type', colors(@type)
+        report.push @formatProperty 'Type', @type
         if @BINprice
             report.push @formatProperty 'Price', colors.green(@price)
             report.push @formatProperty 'Buy It Now', colors.yellow(@BINprice)
