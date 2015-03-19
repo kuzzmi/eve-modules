@@ -39,12 +39,22 @@ exports.login = ->
     deferred.promise
 
 exports.addItem = (item) ->
-	deferred = Q.defer()
+    deferred = Q.defer()
 
-	todoist.request 'addItem', item
-	    .then deferred.resolve
+    todoist.request 'addItem', item
+        .then deferred.resolve
 
-	deferred.promise
+    deferred.promise
+
+exports.completeItems = (items) ->
+    deferred = Q.defer()
+
+    items.ids = JSON.stringify(items.ids)
+
+    todoist.request 'completeItems', items
+        .then deferred.resolve
+
+    deferred.promise
 
 
 getUncompletedItems: (id) ->

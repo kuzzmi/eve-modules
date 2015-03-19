@@ -25,23 +25,27 @@ class StatusModule extends Module
         
         if action is 'update' and type is 'awake' and value is 'true'
             Home.exec
-                home_device : 'screen'
+                home_device : 'monitor'
                 home_action : 'on'
 
             Home.exec
                 home_device : 'led'
                 home_action : 'on'
 
+            Home.exec
+                home_device : 'music'
+                home_action : 'play'
+
             @response
                 .addResponse Weather.exec()
 
         if action is 'update' and type is 'awake' and value is 'false'
             Home.exec
-                home_device : 'screen'
+                home_device : 'monitor'
                 home_action : 'off'
 
             Home.exec
-                home_device : 'projscreen'
+                home_device : 'projector_screen'
                 home_action : 'up'
 
             Home.exec
@@ -51,11 +55,19 @@ class StatusModule extends Module
             Home.exec
                 home_device : 'led'
                 home_action : 'off'
+
+            Home.exec
+                home_device : 'music'
+                home_action : 'pause'
         
         if action is 'update' and type is 'athome' and value is 'false'
             Home.exec
                 home_device : 'led'
                 home_action : 'off'
+
+            Home.exec
+                home_device : 'music'
+                home_action : 'pause'
         
         if action is 'update' and type is 'athome' and value is 'true'
             tasksAtHome = Planning.exec 
@@ -65,6 +77,10 @@ class StatusModule extends Module
             Home.exec
                 home_device : 'led'
                 home_action : 'on'
+
+            Home.exec
+                home_device : 'music'
+                home_action : 'play'
                 
             @response
                 .addResponse tasksAtHome

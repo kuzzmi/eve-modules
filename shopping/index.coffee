@@ -50,7 +50,7 @@ class ShoppingModule extends Module
                     
                     model = new Model item
                     return model
-                
+
                 summarizing = []
 
                 for model in models

@@ -40,7 +40,7 @@ class HomeModule extends Module
         
         @sshCommand com
 
-    projscreen: (command) ->
+    projector_screen: (command) ->
         com = "screen#{command}"
         
         @sshCommand com
@@ -56,10 +56,16 @@ class HomeModule extends Module
         spawn 'vlc', [ source, '--audio-language=en', '--fullscreen' ]
         return @response
 
-    screen: (command) ->
+    monitor: (command) ->
         setTimeout =>
             spawn 'xset', "dpms force #{command}".split ' '
-        , 5000
+        , 2500
+                
+        return @response
+
+    music: (command) ->
+
+        spawn 'nuvolaplayer3ctl', [ 'action', command ]
                 
         return @response
 
