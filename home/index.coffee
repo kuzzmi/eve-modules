@@ -57,7 +57,6 @@ class HomeModule extends Module
         return @response
 
     screen: (command) ->
-
         setTimeout =>
             spawn 'xset', "dpms force #{command}".split ' '
         , 5000
@@ -65,6 +64,7 @@ class HomeModule extends Module
         return @response
 
     exec: ->
+        if not Config.raspberry then return false
 
         @device = @getValue 'home_device'
         @action = @getValue 'home_action'

@@ -15,7 +15,7 @@ module.exports = (Eve) ->
     Eve.respond /reload module (\w+)$/, reloadModule
     Eve.respond /reload (\w+) module$/, reloadModule
 
-    Eve.respond /reload all modules/, (msg) ->
+    Eve.respond /reload( all)? modules/, (msg) ->
         for module of require.cache
             if module.indexOf Eve.modulesPath > -1
                 delete require.cache[require.resolve(module)]

@@ -138,6 +138,31 @@ class PlanningModule extends Module
             .then (tasks) =>
                 @Eve.logger.debug tasks
 
+                items = []
+                tasks.map (item) -> items = items.concat item.data
+
+                list = items.map (task) =>
+                    item = {}
+
+                    if task.due_date
+                        duedate = moment new Date(task.due_date)
+
+                        if task.has_notification || !!~(task.date_string.indexOf '@')
+                            item.datetime = duedate.format 'MM/DD h:mm a' + ' '
+                        else
+                            item.datetime = duedate.format 'MM/DD' + ' '
+
+                        if duedate < new Date()
+                            item.isOverdue = true
+                        else
+                            item.isOverdue = false
+                    else
+                        item.datetime = null
+
+                    item.content = task.content
+
+                    return item
+
                 amount = tasks.reduce(
                     (a, b) -> a + b.data.length, 
                     0
@@ -146,9 +171,15 @@ class PlanningModule extends Module
                 code = [ 'tasks', 'count' ]
                 code.push if amount is 0 then 'none' else 'some'
 
-                phrase = @pick code, [ amount, @tag ]
+                if @tag
+                    phrase = @pick code, [ amount, @tag ]
+                else 
+                    phrase = @pick code, [ amount, 'all groups' ]
+
+                html = @compileHtml __dirname + '/templates/list.jade', { list }
 
                 @response
+                    .addHtml html
                     .addText phrase
                     .addVoice phrase
                     .addNotification phrase

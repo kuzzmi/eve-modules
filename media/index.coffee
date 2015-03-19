@@ -19,19 +19,35 @@ class MediaModule extends Module
         @properties = if @media_properties then @media_properties.map (prop) -> return prop.value
 
     findMovieOMDB: ->
-        search = Q.nbind omdb.get
+        search = Q.nbind omdb.search
+        get    = Q.nbind omdb.get
 
-        search { title: @item, type: 'movie' }
+        search { s: @item, type: 'movie' }
             .then (movies) =>
                 @Eve.logger.debug movies
                 
-                movies
+                items = []
+
+                promises = movies.map (movie) ->
+                    get { title: movie.title, type: 'movie' }
+                        .then (response) ->
+                            items.push response
+
+                Q.all(promises)
+                    .then -> items
             , (err) =>
                 @Eve.logger.debug "Fallback due to:\r\n#{err}"
-                # movies = [{
-                #     title: 'The Matrix'
-                # }]
-                movies = []
+                movies = [{
+                    year: '1999'
+                    title: 'The Matrix 1'
+                }, {
+                    year: '1999'
+                    title: 'The Matrix 2'
+                }, {
+                    year: '1999'
+                    title: 'The Matrix 3'
+                }]
+                # movies = []
                 movies
 
     findMoviePlex: ->
@@ -43,12 +59,12 @@ class MediaModule extends Module
                 movies
 
     findMovie: ->
-        # @findMovieOMDB()
-        @findMoviePlex()
-            .then(
-                (movies) => if not movies then return @findMovieOMDB() else return movies, 
-                (error) => return @findMovieOMDB()
-            )
+        # @findMoviePlex()
+        #     .then(
+        #         (movies) => if not movies then return @findMovieOMDB() else return movies, 
+        #         (error) => return @findMovieOMDB()
+        #     )
+        @findMovieOMDB()
             .then (movies) =>
 
                 if movies instanceof Array
@@ -74,10 +90,13 @@ class MediaModule extends Module
                         report.push "  #{index + 1}  #{year}  #{title}"
                         notification.push "#{year} #{title}"
 
+                    html = @compileHtml "#{__dirname}/templates/list.jade", { list: movies }
+
                     @response
                         .addText  "#{phrase}: \r\n#{report.join '\r\n'}"
                         .addVoice "#{phrase}. Please select one"
                         .addNotification notification
+                        .addHtml html
                         .send()
 
                     @metadata = { movies }

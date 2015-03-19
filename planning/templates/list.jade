@@ -1,0 +1,29 @@
+script.
+    var markDone = function(index) {
+        window.socket.emit('input', 'Mark ' + index.toString() + ' as done');
+    };
+
+table
+    thead
+        tr
+            th(style="width:5%;padding: 2px 5px;")
+            th(style="width:20%;text-align:right;padding: 2px 5px;") Time
+            th(style="width:75%;padding: 2px 5px;") Task
+    tbody
+        - for (var i = 0; i < list.length; i++)
+            - var task = list[i]
+            tr(onclick="markDone(#{i + 1})")
+                td(style="padding: 2px 5px;") 
+                    input(type="checkbox", style="vertical-align: middle;")
+
+                td(style="padding: 2px 5px;") 
+                    if task.isOverdue
+                        span(style="color:#ED7679") #{task.datetime}
+                    else
+                        span(style="color:#B1EC77") #{task.datetime}
+
+                td(style="padding: 2px 5px;") #{task.content}
+        tr
+            td(colspan=2, style="text-align:right;padding: 2px 5px;") 
+                bold Total
+            td(style="padding: 2px 5px;") #{list.length}

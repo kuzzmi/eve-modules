@@ -14,8 +14,8 @@ exports.get = (endpoint, params) ->
     return get endpoint, params
         .then (resp) ->
             {
-                data   : resp[0],
-                body   : resp[1]
+                data: resp[0],
+                body: resp[1]
             }
         .catch (err) ->
             console.log err.stack

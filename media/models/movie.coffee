@@ -6,6 +6,6 @@ class Movie
             @file = params.media[0].part[0].attributes.file
 
         else 
-            { @year, @title } = params
+            { @year, @title, @poster, @imdb } = params
 
 module.exports = Movie
