@@ -81,9 +81,6 @@ class PlanningModule extends Module
                 if tasks.length is 0
                     API.getCat()
                         .then (cat) => 
-                            @Eve.logger.debug "WHERE IS MY CAAAAT?"
-                            @Eve.logger.debug cat
-
                             html = @compileHtml "#{__dirname}/templates/nothing.jade", { cat }
                             phrase = 'You have no tasks'
 
