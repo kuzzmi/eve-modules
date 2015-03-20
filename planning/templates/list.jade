@@ -1,7 +1,25 @@
 script.
-    var markDone = function(index) {
-        window.socket.emit('input', 'Mark ' + index.toString() + ' as done');
+    var markDone = function(index, cb) {
+        cb.disabled = true;
+        var row = $(cb).parent().parent();
+        row.css({
+            'color': '#939393',
+            'text-decoration': 'line-through'
+        });
+        var total = row.parent().find('#total strong');
+        setTimeout(function() {
+            row.css('display', 'none');
+            var tot = +(total.text());
+            total.text(--tot);
+        }, 1000);
+        index++;
+        window.socket.emit('input', 'Mark ' + getGetOrdinal(index) + ' as done');
     };
+    function getGetOrdinal(n) {
+       var s=["th","st","nd","rd"],
+           v=n%100;
+       return n+(s[(v-20)%10]||s[v]||s[0]);
+    }
 
 table
     thead
@@ -12,9 +30,9 @@ table
     tbody
         - for (var i = 0; i < list.length; i++)
             - var task = list[i]
-            tr(onclick="markDone(#{i + 1})")
+            tr
                 td(style="padding: 2px 5px;") 
-                    input(type="checkbox", style="vertical-align: middle;")
+                    input(type="checkbox", style="height:16px;width:15px;vertical-align: middle;",onclick="markDone(#{i}, this)")
 
                 td(style="padding: 2px 5px;") 
                     if task.isOverdue
@@ -25,5 +43,6 @@ table
                 td(style="padding: 2px 5px;") #{task.content}
         tr
             td(colspan=2, style="text-align:right;padding: 2px 5px;") 
-                bold Total
-            td(style="padding: 2px 5px;") #{list.length}
+                strong Total
+            td#total(style="padding: 2px 5px;") 
+                strong #{list.length}

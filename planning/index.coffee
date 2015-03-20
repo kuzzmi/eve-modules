@@ -66,6 +66,7 @@ class PlanningModule extends Module
             .then (response) =>
                 list   = [  ]
                 tasks  = [  ]
+                items  = [  ]
                 report = ['']
 
                 response.map (item) -> tasks = tasks.concat item.data
@@ -81,7 +82,9 @@ class PlanningModule extends Module
                 else
                     memory = []
                     tasks.map (task) ->
+                        item = {}                        
                         { id, content } = task
+                        item.content = content
                         _task = { id, content }
                         memory.push _task
                         taskString = ''
@@ -91,25 +94,32 @@ class PlanningModule extends Module
 
                             if task.has_notification || !!~(task.date_string.indexOf '@')
                                 taskString += duedate.format 'MM/DD h:mm a' + ' '
+                                item.datetime = duedate.format 'MM/DD h:mm a' + ' '
                             else
                                 taskString += duedate.format 'MM/DD' + ' '
+                                item.datetime = duedate.format 'MM/DD' + ' '
                             
                             if duedate < new Date()
+                                item.isOverdue = true
                                 taskString = colors.red(taskString)
                             else
+                                item.isOverdue = false
                                 taskString = colors.green(taskString)
 
                         taskString += task.content
 
                         report.push '    ' + taskString
                         list.push task.content
+                        items.push item
 
+                    html = @compileHtml __dirname + '/templates/list.jade', { list: items }
                     report.push colors.yellow('    Total: ' + colors.bold(tasks.length.toString()))
 
                     @response
                         .addText report.join '\r\n'
                         .addVoice 'Here is a list of your tasks'
                         .addNotification list
+                        .addHtml html
                         .send()
 
                     @Eve.memory.set 'planning', memory
