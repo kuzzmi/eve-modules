@@ -24,25 +24,25 @@ script.
 table
     thead
         tr
-            th(style="width:5%;padding: 2px 5px;")
-            th(style="width:20%;text-align:right;padding: 2px 5px;") Time
-            th(style="width:75%;padding: 2px 5px;") Task
+            th(style="width:5%;")
+            th(style="width:20%;") Due to
+            th(style="width:75%;") Task
     tbody
         - for (var i = 0; i < list.length; i++)
             - var task = list[i]
             tr
-                td(style="padding: 2px 5px;") 
-                    input(type="checkbox", style="height:16px;width:15px;vertical-align: middle;",onclick="markDone(#{i}, this)")
+                td 
+                    input(type="checkbox", style="margin:0;height:15px;width:15px;vertical-align: middle;",onclick="markDone(#{i}, this)")
 
-                td(style="padding: 2px 5px;") 
+                td 
                     if task.isOverdue
-                        span(style="color:#ED7679") #{task.datetime}
+                        span.text-red #{task.datetime}
                     else
-                        span(style="color:#B1EC77") #{task.datetime}
+                        span.text-green #{task.datetime}
 
-                td(style="padding: 2px 5px;") #{task.content}
+                td #{task.content}
         tr
-            td(colspan=2, style="text-align:right;padding: 2px 5px;") 
+            td(colspan=2, style="text-align:right;") 
                 strong Total
-            td#total(style="padding: 2px 5px;") 
+            td#total 
                 strong #{list.length}

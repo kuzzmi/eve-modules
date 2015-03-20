@@ -5,6 +5,7 @@ CronJob    = require('cron').CronJob
 
 API        = require './api'
 config     = require './config'
+Task       = require './task'
 
 class PlanningModule extends Module
 
@@ -66,10 +67,14 @@ class PlanningModule extends Module
             .then (response) =>
                 list   = [  ]
                 tasks  = [  ]
-                items  = [  ]
                 report = ['']
 
-                response.map (item) -> tasks = tasks.concat item.data
+                response.map (item) -> 
+                    tasks = tasks.concat item.data
+
+                tasks = tasks.map (task) -> new Task(task)
+
+                @Eve.logger.debug tasks
 
                 if tasks.length is 0
                     phrase = 'You have no tasks'
@@ -80,39 +85,17 @@ class PlanningModule extends Module
                         .send()
 
                 else
+
                     memory = []
                     tasks.map (task) ->
-                        item = {}                        
-                        { id, content } = task
-                        item.content = content
-                        _task = { id, content }
-                        memory.push _task
-                        taskString = ''
-
-                        if task.due_date
-                            duedate = moment new Date(task.due_date)
-
-                            if task.has_notification || !!~(task.date_string.indexOf '@')
-                                taskString += duedate.format 'MM/DD h:mm a' + ' '
-                                item.datetime = duedate.format 'MM/DD h:mm a' + ' '
-                            else
-                                taskString += duedate.format 'MM/DD' + ' '
-                                item.datetime = duedate.format 'MM/DD' + ' '
-                            
-                            if duedate < new Date()
-                                item.isOverdue = true
-                                taskString = colors.red(taskString)
-                            else
-                                item.isOverdue = false
-                                taskString = colors.green(taskString)
-
-                        taskString += task.content
-
-                        report.push '    ' + taskString
+                        report.push "    #{task.datetime} #{task.content}"
                         list.push task.content
-                        items.push item
+                        memory.push {
+                            id: task.id
+                            content: task.content
+                        }
 
-                    html = @compileHtml __dirname + '/templates/list.jade', { list: items }
+                    html = @compileHtml __dirname + '/templates/list.jade', { list: tasks }
                     report.push colors.yellow('    Total: ' + colors.bold(tasks.length.toString()))
 
                     @response
@@ -145,16 +128,17 @@ class PlanningModule extends Module
                     .send()
 
     remind: (token) ->
+        capitalize = (string) ->
+            string[0].toUpperCase() + string.slice(1)
+
         item = 
-            content     : @item
+            content     : capitalize @item
             token       : token
             priority    : @priority
             date_string : @datetime
 
         if @tag
             item.labels = JSON.stringify [config.labels[@tag].id]
-
-        @Eve.logger.debug "Adding new task #{item}"
 
         API.addItem item
             .then (item) =>
@@ -179,32 +163,9 @@ class PlanningModule extends Module
                 items = []
                 tasks.map (item) -> items = items.concat item.data
 
-                list = items.map (task) =>
-                    item = {}
-
-                    if task.due_date
-                        duedate = moment new Date(task.due_date)
-
-                        if task.has_notification || !!~(task.date_string.indexOf '@')
-                            item.datetime = duedate.format 'MM/DD h:mm a' + ' '
-                        else
-                            item.datetime = duedate.format 'MM/DD' + ' '
-
-                        if duedate < new Date()
-                            item.isOverdue = true
-                        else
-                            item.isOverdue = false
-                    else
-                        item.datetime = null
-
-                    item.content = task.content
-
-                    return item
-
-                amount = tasks.reduce(
-                    (a, b) -> a + b.data.length, 
-                    0
-                )
+                list = items.map (task) -> new Task(task)
+                    
+                amount = list.length
 
                 code = [ 'tasks', 'count' ]
                 code.push if amount is 0 then 'none' else 'some'
