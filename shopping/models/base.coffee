@@ -9,6 +9,7 @@ class BaseModel
         @category    = obj.primaryCategory.categoryName if obj.primaryCategory
         @condition   = obj.condition.conditionDisplayName if obj.condition
         @link        = obj.viewItemURL
+        @image       = obj.galleryURL
         @listingType = obj.listingInfo.listingType if obj.listingInfo
         @parsed      = @parse obj.title
         

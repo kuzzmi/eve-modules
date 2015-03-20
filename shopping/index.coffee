@@ -60,10 +60,16 @@ class ShoppingModule extends Module
                                 report += summary
                     )
 
-                Q.all(summarizing).then => 
-                    @response
-                        .addText report
-                        .send()
+                html = @compileHtml "#{__dirname}/templates/list.jade", { items: models }
+                
+                @response
+                    .addHtml html
+                    .send()
+
+                # Q.all(summarizing).then => 
+                #     @response
+                #         .addText report
+                #         .send()
 
             .catch (err) =>
                 @Eve.logger.error err.stack
