@@ -1,6 +1,7 @@
 todoist = require 'node-todoist'
 config  = require './config'
 Q       = require 'q'
+request = Q.nbind(require 'request')
 
 exports.query = (query) ->
     deferred = Q.defer()
@@ -67,3 +68,21 @@ getUncompletedItems: (id) ->
         .then (response) -> deferred.resolve response
 
     deferred.promise
+
+exports.getCat = () ->
+    options = 
+        url: 'https://montanaflynn-cat-overflow.p.mashape.com/?limit=10&offset=1'
+        proxy: 'http://eu-chbs-proxy.eu.novartis.net:2010'
+        headers:
+            "X-Mashape-Key": "f5pEC2LjcVmsh5BikAwnIQkLaXB4p1K17emjsnidQA6ubYNE5L"
+            "Accept": "text/plain"
+
+    request options
+        .then (response) ->
+            data = response[1].split('\n')
+            rand = (min) -> Math.floor( Math.random() * min )
+
+            r = rand(data.length - 1)
+            data[r]
+        , (err) -> return err
+        .catch (err) -> return err

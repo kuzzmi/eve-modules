@@ -62,6 +62,8 @@ class PlanningModule extends Module
         @query.push @datetime
         @query.push 'overdue'
         @query.push '@' + @tag if @tag
+
+        @Eve.logger.debug @query
         
         API.query @query
             .then (response) =>
@@ -77,12 +79,22 @@ class PlanningModule extends Module
                 @Eve.logger.debug tasks
 
                 if tasks.length is 0
-                    phrase = 'You have no tasks'
+                    API.getCat()
+                        .then (cat) => 
+                            @Eve.logger.debug "WHERE IS MY CAAAAT?"
+                            @Eve.logger.debug cat
 
-                    @response
-                        .addText phrase
-                        .addVoice phrase
-                        .send()
+                            html = @compileHtml "#{__dirname}/templates/nothing.jade", { cat }
+                            phrase = 'You have no tasks'
+
+                            @response
+                                .addText phrase
+                                .addVoice phrase
+                                .addHtml html
+                                .send()
+                        .catch (err) ->
+                            console.log(err)
+
 
                 else
 
@@ -106,6 +118,7 @@ class PlanningModule extends Module
                         .send()
 
                     @Eve.memory.set 'planning', memory
+            .catch (err) -> console.log(err)
 
     done: (token) ->
 
@@ -124,7 +137,6 @@ class PlanningModule extends Module
                 @response
                     .addText 'Good job, sir'
                     .addVoice 'Good job, sir'
-                    .addResponse PlanningModule.exec({planning_action: 'report'})
                     .send()
 
     remind: (token) ->
