@@ -74,6 +74,10 @@ class HomeModule extends Module
 
         @device = @getValue 'home_device'
         @action = @getValue 'home_action'
+        @onoff = @getValue 'on_off'
+
+        if not @action?
+            @action = @onoff
 
         @[@device] @action
 
