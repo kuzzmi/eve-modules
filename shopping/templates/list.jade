@@ -1,10 +1,10 @@
-- for (var i = 0; i < items.length; i++)
-- var item = items[0]
+each item in models
     .row
-        .col-xs-3(style="background-color:#000")
-            img(src="#{item.image}", alt="")
+        .col-xs-3(style="height:150px;background-image:url(#{item.image});background-repeat: no-repeat;background-size: contain;background-position: center;")
         .col-md-9
-            div Test
+            div 
+                span.property-name Title
+                span= item.title
             div Test
             div Test
             div Test

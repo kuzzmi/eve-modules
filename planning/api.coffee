@@ -72,10 +72,10 @@ getUncompletedItems: (id) ->
 exports.getCat = () ->
     options = 
         url: 'https://montanaflynn-cat-overflow.p.mashape.com/?limit=100&offset=1'
-        proxy: 'http://eu-chbs-proxy.eu.novartis.net:2010'
         headers:
             "X-Mashape-Key": "f5pEC2LjcVmsh5BikAwnIQkLaXB4p1K17emjsnidQA6ubYNE5L"
             "Accept": "text/plain"
+        # proxy: 'http://eu-chbs-proxy.eu.novartis.net:2010'
 
     request options
         .then (response) ->

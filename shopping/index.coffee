@@ -60,7 +60,9 @@ class ShoppingModule extends Module
                                 report += summary
                     )
 
-                html = @compileHtml "#{__dirname}/templates/list.jade", { items: models }
+                @Eve.logger.debug models
+
+                html = @compileHtml "#{__dirname}/templates/list.jade", { models }
                 
                 @response
                     .addHtml html

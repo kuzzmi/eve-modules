@@ -59,12 +59,11 @@ class MediaModule extends Module
                 movies
 
     findMovie: ->
-        # @findMoviePlex()
-        #     .then(
-        #         (movies) => if not movies then return @findMovieOMDB() else return movies, 
-        #         (error) => return @findMovieOMDB()
-        #     )
-        @findMovieOMDB()
+        @findMoviePlex()
+            .then(
+                (movies) => if not movies then return @findMovieOMDB() else return movies, 
+                (error) => return @findMovieOMDB()
+            )
             .then (movies) =>
 
                 if movies instanceof Array
@@ -142,7 +141,7 @@ class MediaModule extends Module
 
         if not @metadata
             switch @action
-                when 'turn on'
+                when 'play'
                     @findMovie().then (movie) =>
                         if movie and movie instanceof Movie then @turnOn movie
             
