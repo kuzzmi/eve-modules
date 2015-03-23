@@ -9,6 +9,7 @@
     "ebay-api": "^0.1.1",
     "git-promise": "^0.2.0",
     "google-translate": "^0.1.8",
+    "imap": "^0.8.14",
     "moment": "^2.9.0",
     "node-todoist": "^0.3.2",
     "omdb": "^0.2.2",
