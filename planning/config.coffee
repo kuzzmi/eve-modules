@@ -13,6 +13,7 @@ module.exports =
             color: 5,
             id: 928566,
             uid: 373147
+            
         shop:
             is_deleted: 0
             name: 'shop'

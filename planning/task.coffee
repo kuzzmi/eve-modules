@@ -11,6 +11,7 @@ class Task
             @id
             @due_date
             @date_string
+            @indent
         } = task
 
         @label_names = []
@@ -52,7 +53,11 @@ class Task
             string += "#{colors.bold.red(@datetime)}"
         else
             string += "#{colors.bold.green(@datetime)}"
-        string += " #{@content}"
+        
+        indent = new Array(@indent + 1).join('  ')
+        
+        string += "#{indent}#{@content}"
+
         for label in @label_names
             string += colors.gray " @#{label}"
         

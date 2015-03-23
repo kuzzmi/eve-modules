@@ -12,6 +12,19 @@ class ReferenceModule extends Module
             when 18 <= hours < 23 then 'evening'
             else 'night'
 
+        karmaChange = switch @reference_name_type.value
+            when 'gentle'    then 2
+            when 'offensive' then -5
+            when 'you'       then 0
+            when 'name'      then 1
+            else 0
+        
+        karma = @Eve.memory.get 'karma' || 0
+        console.log karma
+        karma += karmaChange
+        console.log karma
+
+
         code = [ @reference_type.value ]
         args = [ 
             timeOfDay,
@@ -20,9 +33,13 @@ class ReferenceModule extends Module
 
         phrase = @pick code, args
 
+        if karma < 0 then phrase = "I'm too offended..."
+        
         @response
             .addText phrase
             .addVoice phrase
-            .send()        
+            .send()
+
+        karma = @Eve.memory.set 'karma', karma
 
 module.exports = ReferenceModule

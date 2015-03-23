@@ -14,7 +14,7 @@ class PlanningModule extends Module
 
         job = new CronJob '00 45 17 * * 1-5', =>
             @setValue 'planning_action', 'count'
-            @setValue    'planning_tag', 'shop'
+            @setValue    'planning_tag', 'buy_list'
             
             @exec()
 
@@ -39,9 +39,9 @@ class PlanningModule extends Module
                 when 'interval' then 'interval'
                 
             @datetime = switch type
-                when 'second', 'hour' then @dateToString @datetime.value, 'YYYY-M-DDTHH:mm'
-                when 'interval' then @dateToString @datetime.to.value, 'YYYY-M-DDTHH:mm'
-                when 'day' then @dateToString @datetime.value, 'DD MM YYYY'
+                when 'day'            then @dateToString @datetime.value,     'DD MM YYYY'
+                when 'interval'       then @dateToString @datetime.to.value, 'YYYY-M-DDTHH:mm'
+                when 'second', 'hour' then @dateToString @datetime.value,    'YYYY-M-DDTHH:mm'
         else
             @datetime = 'today'
 
@@ -64,10 +64,6 @@ class PlanningModule extends Module
     ### Refactor? ###
     report: ->
 
-        API.getLabels()
-            .then (labels) =>
-                @Eve.logger.debug labels
-
         @query.push @datetime
         @query.push 'overdue'
         @query.push '@' + @tag if @tag
@@ -80,14 +76,9 @@ class PlanningModule extends Module
                 tasks  = [  ]
                 report = ['']
 
-                response.map (item) -> 
-                    tasks = tasks.concat item.data
+                response.map (item) -> tasks = tasks.concat item.data
 
-                tasks = tasks.map (task) -> 
-                    console.log task
-                    new Task(task)
-
-                @Eve.logger.debug tasks
+                tasks = tasks.map (task) -> new Task(task)
 
                 if tasks.length is 0
                     API.getCat(Config.catoverflow)
@@ -103,13 +94,11 @@ class PlanningModule extends Module
                         .catch (err) ->
                             console.log(err)
 
-
                 else
-                    memory = []
+                    memory = tasks
                     tasks.map (task) ->
                         report.push task.textReport()
                         list.push task.content
-                        memory.push task
 
                     html = @compileHtml __dirname + '/templates/list.jade', { list: tasks }
                     report.push colors.yellow('    Total: ' + colors.bold(tasks.length.toString()))
@@ -135,9 +124,13 @@ class PlanningModule extends Module
         for i in @ordinal
             if memory[i - 1]
                 items.ids.push memory[i - 1].id
+                memory = memory.slice(0, i - 1).concat(memory.slice(i))
 
         API.completeItems items
             .then (response) =>
+
+                @Eve.memory.set 'planning', memory
+
                 @response
                     .addText 'Good job, sir'
                     .addVoice 'Good job, sir'
@@ -176,7 +169,6 @@ class PlanningModule extends Module
             .then =>
                 @response.send()
         
-
     remind: (token) ->
         capitalize = (string) ->
             string[0].toUpperCase() + string.slice(1)
@@ -190,8 +182,53 @@ class PlanningModule extends Module
         if @tag
             item.labels = JSON.stringify [config.labels[@tag].id]
 
+        # @Eve.logger.debug item
+        # if @tag is 'cook'
+        #     queue   = []
+        #     ids     = []
+        #     buylist = [
+        #         'potato'
+        #         'tomato'
+        #         'onion'
+        #         'sugar'
+        #     ]
+
+        #     for ingredient in buylist
+        #         buyTask = 
+        #             content     : "Buy #{ingredient}"
+        #             token       : token
+        #             priority    : @priority
+        #             date_string : @datetime
+
+        #         @Eve.logger.debug buyTask
+        #     #     queue.push(
+        #     #         API.addItem buyTask
+        #     #             .then (task) -> 
+        #     #                 ids.push task.id
+        #     #                 console.log task.content
+        #     #     )
+
+        #     # Q.all(queue).then =>
+        #     #     item.children = JSON.stringify ids
+        #     #     API.addItem item
+        #     #         .then (item) =>
+        #     #             @Eve.logger.debug item
+
+        #     #             text = @pick [ 'tasks', 'added' ], [ item.content ]
+
+        #     #             @response
+        #     #                 .addText text
+        #     #                 .addVoice text
+        #     #                 .addNotification text
+        #     #                 .send()
+
+
+        # # 'http://api.bigoven.com/recipes?title_kw=oysters&pg=1&rpp=20&api_key='
+        # else
         API.addItem item
             .then (item) =>
+                @Eve.logger.debug item
+
                 text = @pick [ 'tasks', 'added' ], [ item.content ]
 
                 @response
@@ -199,7 +236,6 @@ class PlanningModule extends Module
                     .addVoice text
                     .addNotification text
                     .send()
-
 
     count: ->
         @query.push @datetime
