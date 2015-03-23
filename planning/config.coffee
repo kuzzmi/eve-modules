@@ -7,6 +7,12 @@ module.exports =
         PROJECTS: 126583902
 
     labels:
+        buy_list:
+            is_deleted: 0,
+            name: 'buy_list',
+            color: 5,
+            id: 928566,
+            uid: 373147
         shop:
             is_deleted: 0
             name: 'shop'

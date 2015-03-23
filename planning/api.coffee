@@ -47,6 +47,14 @@ exports.addItem = (item) ->
 
     deferred.promise
 
+exports.updateItem = (item) ->
+    deferred = Q.defer()
+
+    todoist.request 'updateItem', item
+        .then deferred.resolve
+
+    deferred.promise
+
 exports.completeItems = (items) ->
     deferred = Q.defer()
 
@@ -69,15 +77,8 @@ getUncompletedItems: (id) ->
 
     deferred.promise
 
-exports.getCat = () ->
-    options = 
-        url: 'https://montanaflynn-cat-overflow.p.mashape.com/?limit=100&offset=1'
-        headers:
-            "X-Mashape-Key": "f5pEC2LjcVmsh5BikAwnIQkLaXB4p1K17emjsnidQA6ubYNE5L"
-            "Accept": "text/plain"
-        # proxy: 'http://eu-chbs-proxy.eu.novartis.net:2010'
-
-    request options
+exports.getCat = (config) ->
+    request config
         .then (response) ->
             data = response[1].split('\n')
             rand = (min) -> Math.floor( Math.random() * min )
