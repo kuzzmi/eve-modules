@@ -26,7 +26,7 @@ class Task
         if !!~(task.date_string.indexOf '@') || !!~(task.date_string.indexOf 'at')  
             @datetime = duedate.format 'MM/DD h:mm a'  
         else
-            @datetime = duedate.format 'MM/DD'  
+            @datetime = duedate.format 'MM/DD'
 
         @isOverdue = duedate < new Date()
         ###
