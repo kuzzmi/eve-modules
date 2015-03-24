@@ -54,7 +54,7 @@ class BaseModel
             'appId': 'IgorKuzm-e6eb-4580-8a63-f7a888125783',
 
             params: {
-                'ItemId': '1234567890'
+                'ItemId': @id
             }
         }, (error, data) ->
             if error then throw error
@@ -71,7 +71,7 @@ class BaseModel
             console.log data
 
     summarize: (details) ->
-        deferred = Q.defer()
+        # deferred = Q.defer()
 
         report = ['']
 
@@ -79,8 +79,7 @@ class BaseModel
         report.push @formatProperty 'Category', @category
         report.push @formatProperty 'Condition', @condition
 
-        if details
-            report = report.concat details
+        if details then report = report.concat details
         
         report.push @formatProperty '====='
         report.push @formatProperty 'Type', @type
@@ -96,8 +95,8 @@ class BaseModel
 
         report.push ''
 
-        deferred.resolve report.join '\r\n'
+        return report.join '\r\n'
 
-        deferred.promise
+        # deferred.promise
 
 module.exports = BaseModel

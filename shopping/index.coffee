@@ -53,12 +53,12 @@ class ShoppingModule extends Module
 
                 summarizing = []
 
-                for model in models
-                    summarizing.push(
-                        model.summarize()
-                            .then (summary) =>
-                                report += summary
-                    )
+                # for model in models
+                #     summarizing.push(
+                #         model.summarize()
+                #             .then (summary) =>
+                #                 report += summary
+                #     )
 
                 @Eve.logger.debug models
 

@@ -5,6 +5,11 @@ Planning   = require '../planning'
 
 class StatusModule extends Module
     
+    doAtHome: (device, action) ->
+        Home.exec
+            home_device : device
+            home_action : action            
+
     exec: ->
         action = @status_action.value
         type   = @status_type.value
@@ -24,64 +29,31 @@ class StatusModule extends Module
         phrase = @pick code, args
         
         if action is 'update' and type is 'awake' and value is 'true'
-            Home.exec
-                home_device : 'monitor'
-                home_action : 'on'
-
-            Home.exec
-                home_device : 'led'
-                home_action : 'on'
-
-            Home.exec
-                home_device : 'music'
-                home_action : 'play'
+            @doAtHome 'monitor', 'on'
+            @doAtHome     'led', 'on'
+            @doAtHome   'music', 'play'
 
             @response
                 .addResponse Weather.exec()
 
         if action is 'update' and type is 'awake' and value is 'false'
-            Home.exec
-                home_device : 'monitor'
-                home_action : 'off'
+            @doAtHome 'projector_screen', 'up'
+            @doAtHome        'projector', 'off'
+            @doAtHome          'monitor', 'off'
+            @doAtHome            'music', 'pause'        
+            @doAtHome              'led', 'off'
 
-            Home.exec
-                home_device : 'projector_screen'
-                home_action : 'up'
-
-            Home.exec
-                home_device : 'projector'
-                home_action : 'off'
-
-            Home.exec
-                home_device : 'led'
-                home_action : 'off'
-
-            Home.exec
-                home_device : 'music'
-                home_action : 'pause'
-        
         if action is 'update' and type is 'athome' and value is 'false'
-            Home.exec
-                home_device : 'led'
-                home_action : 'off'
+            @doAtHome   'led', 'off'
+            @doAtHome 'music', 'pause'
 
-            Home.exec
-                home_device : 'music'
-                home_action : 'pause'
-        
         if action is 'update' and type is 'athome' and value is 'true'
             tasksAtHome = Planning.exec 
                 planning_action : 'count'
                 planning_tag    : 'home'
 
-            Home.exec
-                home_device : 'led'
-                home_action : 'on'
-
-            Home.exec
-                home_device : 'music'
-                home_action : 'play'
-                
+            @doAtHome   'led', 'on'
+            @doAtHome 'music', 'play'                
             @response
                 .addResponse tasksAtHome
 
