@@ -59,7 +59,7 @@ class Task
         string += "#{indent}#{@content}"
 
         for label in @label_names
-            string += colors.gray " @#{label}"
+            string += colors.green " @#{label}"
         
         string
 

@@ -12,12 +12,15 @@ class ReferenceModule extends Module
             when 18 <= hours < 23 then 'evening'
             else 'night'
 
-        karmaChange = switch @reference_name_type.value
-            when 'gentle'    then 2
-            when 'offensive' then -5
-            when 'you'       then 0
-            when 'name'      then 1
-            else 0
+        if @reference_name_type
+            karmaChange = switch @reference_name_type.value
+                when 'gentle'    then 2
+                when 'offensive' then -5
+                when 'you'       then 0
+                when 'name'      then 1
+                else 0
+        else 
+            karmaChange = 0
         
         karma = @Eve.memory.get 'karma' || 0
         console.log karma

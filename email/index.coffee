@@ -1,11 +1,13 @@
-{ Module } = require '../../eve'
+{ Module, Config } = require '../../eve'
+inspect = require('util').inspect
 Imap = require 'imap'
 
 class EmailModule extends Module
 
     attach: ->
         imap = new Imap
-            user: 'kuzzmi@gmail.com',
+            user: Config.gmail.email,
+            password: Config.gmail.password,
             host: 'imap.gmail.com',
             port: 993,
             tls: true

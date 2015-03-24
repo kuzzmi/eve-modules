@@ -7,6 +7,13 @@ module.exports =
         PROJECTS: 126583902
 
     labels:
+        cook:
+            is_deleted: 0,
+            name: 'cook',
+            color: 2,
+            id: 929152,
+            uid: 373147
+
         buy_list:
             is_deleted: 0,
             name: 'buy_list',

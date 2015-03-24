@@ -100,7 +100,7 @@ class WeatherModule extends Module
         
         @datetime ?= 
             type  : 'value'
-            grain : 'second'
+            grain : 'day'
             value : new Date()
 
         @forecast()

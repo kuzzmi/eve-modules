@@ -7,6 +7,7 @@ CronJob    = require('cron').CronJob
 API        = require './api'
 config     = require './config'
 Task       = require './task'
+BigOven    = require './bigoven'
 
 class PlanningModule extends Module
 
@@ -39,11 +40,16 @@ class PlanningModule extends Module
                 when 'interval' then 'interval'
                 
             @datetime = switch type
-                when 'day'            then @dateToString @datetime.value,     'DD MM YYYY'
-                when 'interval'       then @dateToString @datetime.to.value, 'YYYY-M-DDTHH:mm'
-                when 'second', 'hour' then @dateToString @datetime.value,    'YYYY-M-DDTHH:mm'
+                when 'day'            
+                    @dateToString @datetime.value, 'DD MM YYYY'
+                when 'interval'       
+                    @dateToString @datetime.to.value, 'YYYY-M-DDTHH:mm'
+                when 'second', 'hour', 'minute'
+                    @dateToString @datetime.value, 'YYYY-M-DDTHH:mm'
         else
             @datetime = 'today'
+
+        @Eve.logger.debug @datetime
 
     dateToString: (date, format) ->
         moment(date).format format
@@ -137,7 +143,6 @@ class PlanningModule extends Module
                     .send()
 
     postpone: (token) ->
-
         memory = @Eve.memory.get 'planning'
 
         tasks = []
@@ -157,17 +162,18 @@ class PlanningModule extends Module
             else
                 task.date_string = @dateToString task.due_date, 'MM/DD/YYYY'
             task.token = token
-            queue.push
-            (
+            queue.push(
                 API.updateItem task
                     .then (item) =>
                         @response
-                            .addText "#{item.content} is postponed to #{item.date_string}"
+                            .addText "#{item.content} is postponed"
             )
 
         Q.all queue
             .then =>
-                @response.send()
+                @response
+                    .addVoice 'Done, sir'
+                    .send()
         
     remind: (token) ->
         capitalize = (string) ->
@@ -179,63 +185,60 @@ class PlanningModule extends Module
             priority    : @priority
             date_string : @datetime
 
+        @Eve.logger.debug item
+
         if @tag
             item.labels = JSON.stringify [config.labels[@tag].id]
 
-        # @Eve.logger.debug item
-        # if @tag is 'cook'
-        #     queue   = []
-        #     ids     = []
-        #     buylist = [
-        #         'potato'
-        #         'tomato'
-        #         'onion'
-        #         'sugar'
-        #     ]
+        if @tag is 'cook'
+            queue   = []
+            ids     = []
 
-        #     for ingredient in buylist
-        #         buyTask = 
-        #             content     : "Buy #{ingredient}"
-        #             token       : token
-        #             priority    : @priority
-        #             date_string : @datetime
+            bigoven = new BigOven Config.bigoven.apiKey
 
-        #         @Eve.logger.debug buyTask
-        #     #     queue.push(
-        #     #         API.addItem buyTask
-        #     #             .then (task) -> 
-        #     #                 ids.push task.id
-        #     #                 console.log task.content
-        #     #     )
+            bigoven.search @item.replace /^cook /, ''
+                .then (ingredients) =>
+                    console.log ingredients
+                    API.addItem item
+                        .then (item) =>
+                            @Eve.logger.debug item
 
-        #     # Q.all(queue).then =>
-        #     #     item.children = JSON.stringify ids
-        #     #     API.addItem item
-        #     #         .then (item) =>
-        #     #             @Eve.logger.debug item
+                            text = @pick [ 'tasks', 'added' ], [ item.content ]
 
-        #     #             text = @pick [ 'tasks', 'added' ], [ item.content ]
+                            for ingredient in ingredients
+                                buyTask = 
+                                    content     : "Buy #{ingredient} @buy_list"
+                                    token       : token
+                                    indent      : 2
+                                    priority    : @priority
+                                    date_string : @datetime
 
-        #     #             @response
-        #     #                 .addText text
-        #     #                 .addVoice text
-        #     #                 .addNotification text
-        #     #                 .send()
+                                API.addItem buyTask
+                                    .then (task) -> 
+                                        ids.push task.id
+                                        console.log task.content
 
+                            @response
+                                .addText text
+                                .addVoice text
+                                .addNotification text
+                                .send()
+                .catch (err) ->
+                    console.log err
 
-        # # 'http://api.bigoven.com/recipes?title_kw=oysters&pg=1&rpp=20&api_key='
-        # else
-        API.addItem item
-            .then (item) =>
-                @Eve.logger.debug item
+        # 'http://api.bigoven.com/recipes?title_kw=oysters&pg=1&rpp=20&api_key='
+        else
+            API.addItem item
+                .then (item) =>
+                    @Eve.logger.debug item
 
-                text = @pick [ 'tasks', 'added' ], [ item.content ]
+                    text = @pick [ 'tasks', 'added' ], [ item.content ]
 
-                @response
-                    .addText text
-                    .addVoice text
-                    .addNotification text
-                    .send()
+                    @response
+                        .addText text
+                        .addVoice text
+                        .addNotification text
+                        .send()
 
     count: ->
         @query.push @datetime
