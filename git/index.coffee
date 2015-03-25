@@ -4,19 +4,21 @@ versiony   = require 'versiony'
 
 Home       = require '../home'
 
-{ Module } = require '../../eve'
+{ Module, Config } = require '../../eve'
 
 class GitModule extends Module
     
-    push: ->
+    push: (repo) ->
+        cwd = Config.git.repos[repo]
+        
         versiony
             .from 'package.json'
             .patch()
             .to 'package.json'
         
-        git 'add -A'
-            .then -> git 'commit -m "[Eve] Uploaded at ' + new Date() + '"'
-            .then -> git 'push origin master'
+        git 'add -A', { cwd }
+            .then -> git 'commit -m "[Eve] Uploaded at ' + new Date() + '"', { cwd }
+            .then -> git 'push origin master', { cwd }
             .then => 
                 info = versiony.end()
                 phrase = 'Uploaded v' + info.version
@@ -27,8 +29,10 @@ class GitModule extends Module
                     .addNotification phrase
                     .send()
 
-    pull: ->
-        git 'pull origin master'
+    pull: (repo) ->
+        cwd = Config.git.repos[repo]
+
+        git 'pull origin master', { cwd }
             .then (output) =>
                 pkg = require './package.json'
                 phrase = 'Updated to v' + pkg.version
@@ -41,8 +45,10 @@ class GitModule extends Module
 
                 return response
 
-    status: ->
-        git 'status --porcelain'
+    status: (repo) ->
+        cwd = Config.git.repos[repo]
+
+        git 'status --porcelain', { cwd }
             .then (output) =>
                 tree = gitUtils.extractStatus(output).workingTree
 
@@ -76,10 +82,6 @@ class GitModule extends Module
                     .send()
     
     exec: ->
-
-        switch @git_action.value
-            when 'status' then @status()
-            when 'pull'   then   @pull()
-            when 'push'   then   @push()
+        @[@git_action.value](@git_repo.value)
 
 module.exports = GitModule
