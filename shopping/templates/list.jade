@@ -1,17 +1,20 @@
 .row
-  each item in models
-      .col-sm-6.col-md-4.col-lg-2
-          .thumbnail(style="border:none;box-shadow:none;background-color:transparent;")
-              div(style="margin:0 auto;width:150px;height:150px;background-image:url(#{item.image});background-repeat: no-repeat;background-size:cover;background-position: center;")
-              h4
-                 span.label.label-default(style="margin-right:10px;")= item.type
-                 span.label.label-primary(style="margin-right:10px;")= item.price
-                 span.label.label-success(style="margin-right:10px;")= item.condition
-              p= item.title
-                  br
-                  small= item.category
-              if item.parsed
-                  each v, k in item.parsed
-                      p= v
-              p
-                  a.btn.btn-primary(href="#{item.link}", target="_blank") Go to item
+    each item in models
+        .col-sm-6.col-md-4.col-lg-2
+            .thumbnail(style="border:none;box-shadow:none;background-color:transparent;")
+                div(style="margin:0 auto;width:150px;height:150px;background-image:url(#{item.image});background-repeat: no-repeat;background-size:cover;background-position: center;")
+                h4
+                    span.label.label-default(style="margin-right:10px;")= item.type
+                    if item.type === "Auction"
+                        span.label.label-success(style="margin-right:10px;")= item.price
+                    else
+                        span.label.label-primary(style="margin-right:10px;")= item.price
+                    span.label.label-default(style="margin-right:10px;")= item.condition
+                p= item.title
+                    br
+                    small= item.category
+                if item.parsed
+                    each v, k in item.parsed
+                        p= v
+                p
+                    a.btn.btn-primary(href="#{item.link}", target="_blank") Go to item

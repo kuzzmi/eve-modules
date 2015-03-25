@@ -30,6 +30,9 @@ class BaseModel
             when 'StoreInventory'
                 @type  = 'Store inventory'
                 @price = '$' + obj.sellingStatus.convertedCurrentPrice.USD
+            else
+                @type  = 'Other'
+                @price = '$' + obj.sellingStatus.convertedCurrentPrice.USD
 
     parse: ->
 
