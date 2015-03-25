@@ -14,6 +14,9 @@ module.exports = (Eve) ->
 
     Eve.respond /reload module (\w+)$/, reloadModule
     Eve.respond /reload (\w+) module$/, reloadModule
+    
+    Eve.respond /restart$/, (msg) ->
+        process.exit 1
 
     Eve.respond /reload( all)? modules/, (msg) ->
         for module of require.cache

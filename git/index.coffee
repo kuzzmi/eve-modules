@@ -23,10 +23,10 @@ class GitModule extends Module
                 info = versiony.end()
                 phrase = 'Uploaded v' + info.version
 
+                # .addNotification phrase
                 @response
                     .addText phrase
                     .addVoice phrase
-                    .addNotification phrase
                     .send()
 
     pull: (repo) ->
@@ -37,10 +37,10 @@ class GitModule extends Module
                 pkg = require './package.json'
                 phrase = 'Updated to v' + pkg.version
                 
+                # .addNotification phrase
                 @response
                     .addText phrase
                     .addVoice phrase
-                    .addNotification phrase
                     .send()
 
                 return response
@@ -75,10 +75,10 @@ class GitModule extends Module
                 if report.length is 0
                     report = 'Everything is up-to-date, sir'
 
+                # .addNotification report
                 @response
                     .addText report
                     .addVoice report
-                    .addNotification report
                     .send()
     
     exec: ->
