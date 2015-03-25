@@ -49,8 +49,6 @@ class PlanningModule extends Module
         else
             @datetime = 'today'
 
-        @Eve.logger.debug @datetime
-
     dateToString: (date, format) ->
         moment(date).format format
 
@@ -247,8 +245,7 @@ class PlanningModule extends Module
 
         API.query @query
             .then (tasks) =>
-                @Eve.logger.debug tasks
-
+                
                 items = []
                 tasks.map (item) -> items = items.concat item.data
 

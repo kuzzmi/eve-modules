@@ -33,8 +33,8 @@ class StatusModule extends Module
             @doAtHome     'led', 'on'
             @doAtHome   'music', 'play'
 
-            @response
-                .addResponse Weather.exec()
+            # @response
+            #     .addResponse Weather.exec()
 
         if action is 'update' and type is 'awake' and value is 'false'
             @doAtHome 'projector_screen', 'up'
