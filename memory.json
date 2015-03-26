@@ -1,0 +1,290 @@
+{
+    "phrases": {
+        "What's the modules status?": {
+            "_text": "What's the modules status?",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.988
+        },
+        "Upload modules": {
+            "_text": "Upload modules",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "push"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.939
+        },
+        "What is your status?": {
+            "_text": "What is your status?",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ]
+            },
+            "confidence": 0.961
+        },
+        "What is modules status?": {
+            "_text": "What is modules status?",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.967
+        },
+        "Upload yourself": {
+            "_text": "Upload yourself",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "push"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ]
+            },
+            "confidence": 0.883
+        },
+        "Thanks": {
+            "_text": "Thanks",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "type": "value",
+                        "value": "Thanks",
+                        "suggested": true
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ]
+            },
+            "confidence": 0.704
+        },
+        "What is portal status?": {
+            "_text": "What is portal status?",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "portal"
+                    }
+                ]
+            },
+            "confidence": 0.965
+        },
+        "Translate держись, чувак": {
+            "_text": "Translate держись, чувак",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "держись, чувак",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "Hello": {
+            "_text": "Hello",
+            "intent": "reference",
+            "entities": {
+                "reference_type": [
+                    {
+                        "value": "greeting"
+                    }
+                ]
+            },
+            "confidence": 0.598
+        },
+        "translate штанга to german": {
+            "_text": "translate штанга to german",
+            "intent": "translate",
+            "entities": {
+                "to": [
+                    {
+                        "value": "german"
+                    }
+                ],
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "штанга",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.999
+        },
+        "translate штанга": {
+            "_text": "translate штанга",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "штанга",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "translate rod to ru": {
+            "_text": "translate rod to ru",
+            "intent": "translate",
+            "entities": {
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ],
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "rod",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.998
+        },
+        "translate штанга и гантели": {
+            "_text": "translate штанга и гантели",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "штанга и гантели",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "Remind me to look for barbells and dumbbells": {
+            "_text": "Remind me to look for barbells and dumbbells",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "remind"
+                    }
+                ],
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "look for barbells and dumbbells",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.998
+        },
+        "What is module status?": {
+            "_text": "What is module status?",
+            "intent": "git",
+            "entities": {
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ],
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ]
+            },
+            "confidence": 0.917
+        },
+        "update yourself": {
+            "_text": "update yourself",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "pull"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ]
+            },
+            "confidence": 0.723
+        },
+        "Update modules": {
+            "_text": "Update modules",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "pull"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.824
+        }
+    },
+    "pomodoros": 2,
+    "smokedLast": null,
+    "karma": 0
+}

@@ -1,4 +1,5 @@
 { Module } = require '../../eve'
+Status = require '../status'
 
 class ReferenceModule extends Module
 
@@ -42,6 +43,12 @@ class ReferenceModule extends Module
             .addText phrase
             .addVoice phrase
             .send()
+            
+        if @reference_type.value is "farewell"
+            Status.exec
+                status_action: 'update'
+                status_type: 'athome'
+                status_value: 'false'
 
         karma = @Eve.memory.set 'karma', karma
 
