@@ -390,6 +390,72 @@
                 ]
             },
             "confidence": 0.477
+        },
+        "status:update:athome:false": {
+            "_text": "status:update:athome:false",
+            "intent": "status",
+            "entities": {
+                "status_value": [
+                    {
+                        "value": "false"
+                    }
+                ],
+                "status_type": [
+                    {
+                        "value": "athome"
+                    }
+                ],
+                "status_action": [
+                    {
+                        "value": "update"
+                    }
+                ]
+            },
+            "confidence": 0.995
+        },
+        "status:update:athome:false\\": {
+            "_text": "status:update:athome:false\\",
+            "intent": "status",
+            "entities": {
+                "status_value": [
+                    {
+                        "value": "false"
+                    }
+                ],
+                "status_type": [
+                    {
+                        "value": "athome"
+                    }
+                ],
+                "status_action": [
+                    {
+                        "value": "update"
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "status:update:awake:true": {
+            "_text": "status:update:awake:true",
+            "intent": "status",
+            "entities": {
+                "status_value": [
+                    {
+                        "value": "true"
+                    }
+                ],
+                "status_type": [
+                    {
+                        "value": "awake"
+                    }
+                ],
+                "status_action": [
+                    {
+                        "value": "update"
+                    }
+                ]
+            },
+            "confidence": 0.997
         }
     },
     "pomodoros": 2,
