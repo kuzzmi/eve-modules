@@ -1,0 +1,1916 @@
+{
+    "phrases": {
+        "Hello": {
+            "_text": "Hello",
+            "intent": "reference",
+            "entities": {
+                "reference_type": [
+                    {
+                        "value": "greeting"
+                    }
+                ]
+            },
+            "confidence": 0.615
+        },
+        "What is your status?": {
+            "_text": "What is your status?",
+            "intent": "git",
+            "entities": {
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ],
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ]
+            },
+            "confidence": 0.957
+        },
+        "I want to watch Harry Potter": {
+            "_text": "I want to watch Harry Potter",
+            "intent": "media",
+            "entities": {
+                "media_action": [
+                    {
+                        "value": "turn on",
+                        "metadata": ""
+                    }
+                ],
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Harry Potter"
+                    }
+                ]
+            },
+            "confidence": 0.904
+        },
+        "I  want to watch Harry Potter": {
+            "_text": "I  want to watch Harry Potter",
+            "intent": "media",
+            "entities": {
+                "media_action": [
+                    {
+                        "value": "I  want to"
+                    }
+                ],
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Harry Potter"
+                    }
+                ]
+            },
+            "confidence": 0.908
+        },
+        "hello": {
+            "_text": "hello",
+            "intent": "reference",
+            "entities": {
+                "reference_type": [
+                    {
+                        "value": "greeting"
+                    }
+                ]
+            },
+            "confidence": 0.27
+        },
+        "I want to go watch Harry Potter": {
+            "_text": "I want to go watch Harry Potter",
+            "intent": "media",
+            "entities": {
+                "media_action": [
+                    {
+                        "value": "turn on",
+                        "metadata": ""
+                    }
+                ],
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Harry Potter"
+                    }
+                ]
+            },
+            "confidence": 0.88
+        },
+        "status:update:awake:false": {
+            "_text": "status:update:awake:false",
+            "intent": "status",
+            "entities": {
+                "status_value": [
+                    {
+                        "value": "false"
+                    }
+                ],
+                "status_action": [
+                    {
+                        "value": "update"
+                    }
+                ],
+                "status_type": [
+                    {
+                        "value": "awake"
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "status:update:awake:true": {
+            "_text": "status:update:awake:true",
+            "intent": "status",
+            "entities": {
+                "status_value": [
+                    {
+                        "value": "true"
+                    }
+                ],
+                "status_action": [
+                    {
+                        "value": "update"
+                    }
+                ],
+                "status_type": [
+                    {
+                        "value": "awake"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "status:update:athome:true": {
+            "_text": "status:update:athome:true",
+            "intent": "status",
+            "entities": {
+                "status_value": [
+                    {
+                        "value": "true"
+                    }
+                ],
+                "status_action": [
+                    {
+                        "value": "update"
+                    }
+                ],
+                "status_type": [
+                    {
+                        "value": "athome"
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "status:update:athome:false": {
+            "_text": "status:update:athome:false",
+            "intent": "status",
+            "entities": {
+                "status_value": [
+                    {
+                        "value": "false"
+                    }
+                ],
+                "status_action": [
+                    {
+                        "value": "update"
+                    }
+                ],
+                "status_type": [
+                    {
+                        "value": "athome"
+                    }
+                ]
+            },
+            "confidence": 0.995
+        },
+        "I want to buy a new iPhone 6": {
+            "_text": "I want to buy a new iPhone 6",
+            "intent": "shopping",
+            "entities": {
+                "search_query": [
+                    {
+                        "value": "new iPhone 6"
+                    }
+                ],
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "i want to buy a new nexus 6": {
+            "_text": "i want to buy a new nexus 6",
+            "intent": "shopping",
+            "entities": {
+                "search_query": [
+                    {
+                        "value": "new nexus 6"
+                    }
+                ],
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ]
+            },
+            "confidence": 0.989
+        },
+        "I wanna watch Harry Potter": {
+            "_text": "I wanna watch Harry Potter",
+            "intent": "media",
+            "entities": {
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Harry Potter"
+                    }
+                ]
+            },
+            "confidence": 0.809
+        },
+        "i want to watch harry potter": {
+            "_text": "i want to watch harry potter",
+            "intent": "media",
+            "entities": {
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "harry potter"
+                    }
+                ],
+                "media_action": [
+                    {
+                        "value": "turn on",
+                        "metadata": ""
+                    }
+                ]
+            },
+            "confidence": 0.911
+        },
+        "i want to watch the matrix": {
+            "_text": "i want to watch the matrix",
+            "intent": "media",
+            "entities": {
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "the matrix"
+                    }
+                ],
+                "media_action": [
+                    {
+                        "value": "turn on",
+                        "metadata": ""
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "I want to buy a new Nexus 6": {
+            "_text": "I want to buy a new Nexus 6",
+            "intent": "shopping",
+            "entities": {
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Nexus 6"
+                    }
+                ]
+            },
+            "confidence": 0.998
+        },
+        "I wanna buy Nexus 6": {
+            "_text": "I wanna buy Nexus 6",
+            "intent": "shopping",
+            "entities": {
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Nexus 6"
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "Thanks": {
+            "_text": "Thanks",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "Thanks"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ]
+            },
+            "confidence": 0.683
+        },
+        "I want to buy Nexus 6": {
+            "_text": "I want to buy Nexus 6",
+            "intent": "shopping",
+            "entities": {
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Nexus 6"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "Hello!": {
+            "_text": "Hello!",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "!"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "greeting"
+                    }
+                ]
+            },
+            "confidence": 0.746
+        },
+        "Mark first as done": {
+            "_text": "Mark first as done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 1
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.517
+        },
+        "I wanna buy Iphone 6 32gb": {
+            "_text": "I wanna buy Iphone 6 32gb",
+            "intent": "shopping",
+            "entities": {
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Iphone 6 32gb"
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "First task is done": {
+            "_text": "First task is done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 1
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.966
+        },
+        "Second task is done": {
+            "_text": "Second task is done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 2
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.974
+        },
+        "Mark first task as done": {
+            "_text": "Mark first task as done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 1
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.985
+        },
+        "hello honey": {
+            "_text": "hello honey",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "gentle"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "greeting"
+                    }
+                ]
+            },
+            "confidence": 0.437
+        },
+        "upload yourself": {
+            "_text": "upload yourself",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "push"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ]
+            },
+            "confidence": 0.671
+        },
+        "Hey, honey": {
+            "_text": "Hey, honey",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "gentle"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "Hey"
+                    }
+                ]
+            },
+            "confidence": 0.494
+        },
+        "Mark 1 as done": {
+            "_text": "Mark 1 as done",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.301
+        },
+        "Mark 1st as done": {
+            "_text": "Mark 1st as done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 1
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.337
+        },
+        "Mark 2nd as done": {
+            "_text": "Mark 2nd as done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 2
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.496
+        },
+        "Mark 3rd as done": {
+            "_text": "Mark 3rd as done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 3
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.381
+        },
+        "remind me to test this again": {
+            "_text": "remind me to test this again",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "value": "test this again"
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "remind",
+                        "metadata": ""
+                    }
+                ]
+            },
+            "confidence": 0.999
+        },
+        "what is your status?": {
+            "_text": "what is your status?",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ]
+            },
+            "confidence": 0.904
+        },
+        "thanks": {
+            "_text": "thanks",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ]
+            },
+            "confidence": 0.636
+        },
+        "Thanks!": {
+            "_text": "Thanks!",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "!"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ]
+            },
+            "confidence": 0.647
+        },
+        "Add a task: explore Tasker plugin development": {
+            "_text": "Add a task: explore Tasker plugin development",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "value": "explore Tasker plugin development"
+                    }
+                ]
+            },
+            "confidence": 0.721
+        },
+        "Add new task. Tasker plugin development": {
+            "_text": "Add new task. Tasker plugin development",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "remind",
+                        "metadata": ""
+                    }
+                ],
+                "agenda_entry": [
+                    {
+                        "value": "Tasker plugin development"
+                    }
+                ]
+            },
+            "confidence": 0.993
+        },
+        "thank you": {
+            "_text": "thank you",
+            "intent": "reference",
+            "entities": {
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ],
+                "reference_name_type": [
+                    {
+                        "value": "you"
+                    }
+                ]
+            },
+            "confidence": 0.712
+        },
+        "translate 智能遥控": {
+            "_text": "translate 智能遥控",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "智能遥控"
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "Hello, honey": {
+            "_text": "Hello, honey",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "gentle"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "greeting"
+                    }
+                ]
+            },
+            "confidence": 0.918
+        },
+        "I wanna buy a black square": {
+            "_text": "I wanna buy a black square",
+            "intent": "shopping",
+            "entities": {
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "black square"
+                    }
+                ]
+            },
+            "confidence": 0.993
+        },
+        "I wanna buy Nexus 6I wanna buy Nexus 6": {
+            "_text": "I wanna buy Nexus 6I wanna buy Nexus 6",
+            "intent": "shopping",
+            "entities": {
+                "search_query": [
+                    {
+                        "value": "Nexus 6"
+                    },
+                    {
+                        "value": "Nexus"
+                    }
+                ],
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    },
+                    {
+                        "value": "report"
+                    }
+                ]
+            },
+            "confidence": 1
+        },
+        "how to transfer heat sealed": {
+            "_text": "how to transfer heat sealed",
+            "intent": "weather",
+            "entities": {
+                "weather_details": [
+                    {
+                        "value": "all"
+                    }
+                ]
+            },
+            "confidence": 0.334
+        },
+        "translate field to ÑÐ°ÑÐµÐ½": {
+            "_text": "translate field to ÑÐ°ÑÐµÐ½",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "field"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "½"
+                    }
+                ]
+            },
+            "confidence": 0.993
+        },
+        "translate": {
+            "_text": "translate",
+            "intent": "translate",
+            "entities": {},
+            "confidence": 0.966
+        },
+        "translate to Russian": {
+            "_text": "translate to Russian",
+            "intent": "translate",
+            "entities": {
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "translate hello to Russian": {
+            "_text": "translate hello to Russian",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "hello"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "translate SEALED to russian": {
+            "_text": "translate SEALED to russian",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "SEALED"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ]
+            },
+            "confidence": 0.998
+        },
+        "What are my plans?": {
+            "_text": "What are my plans?",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "report",
+                        "metadata": ""
+                    }
+                ]
+            },
+            "confidence": 0.627
+        },
+        "I need to cook Oliv'e": {
+            "_text": "I need to cook Oliv'e",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "value": "cook Oliv'e"
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "remind",
+                        "metadata": ""
+                    }
+                ]
+            },
+            "confidence": 0.813
+        },
+        "I want to watch Birdman": {
+            "_text": "I want to watch Birdman",
+            "intent": "media",
+            "entities": {
+                "media_action": [
+                    {
+                        "value": "play",
+                        "metadata": ""
+                    }
+                ],
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Birdman"
+                    }
+                ]
+            },
+            "confidence": 0.963
+        },
+        "I want to go to Berlin": {
+            "_text": "I want to go to Berlin",
+            "intent": "shopping",
+            "entities": {
+                "search_query": [
+                    {
+                        "value": "Berlin"
+                    }
+                ]
+            },
+            "confidence": 0.65
+        },
+        "remind me to play soccer": {
+            "_text": "remind me to play soccer",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "value": "play soccer"
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "remind",
+                        "metadata": ""
+                    }
+                ]
+            },
+            "confidence": 0.998
+        },
+        "I wanna buy a lamp Acer 6620BD": {
+            "_text": "I wanna buy a lamp Acer 6620BD",
+            "intent": "shopping",
+            "entities": {
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "lamp Acer 6620BD"
+                    }
+                ]
+            },
+            "confidence": 0.988
+        },
+        "I want to voice Bergman": {
+            "_text": "I want to voice Bergman",
+            "intent": "shopping",
+            "entities": {
+                "search_query": [
+                    {
+                        "value": "voice Bergman"
+                    }
+                ]
+            },
+            "confidence": 0.742
+        },
+        "I wanna watch Birdman": {
+            "_text": "I wanna watch Birdman",
+            "intent": "media",
+            "entities": {
+                "media_action": [
+                    {
+                        "value": "play",
+                        "metadata": ""
+                    }
+                ],
+                "media_type": [
+                    {
+                        "value": "movie"
+                    }
+                ],
+                "search_query": [
+                    {
+                        "value": "Birdman"
+                    }
+                ]
+            },
+            "confidence": 0.928
+        },
+        "translate Dutch back to Russian": {
+            "_text": "translate Dutch back to Russian",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "Dutch back"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ]
+            },
+            "confidence": 0.995
+        },
+        "translate pathetic to Russian": {
+            "_text": "translate pathetic to Russian",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "pathetic"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "remind me to do a hollow movies": {
+            "_text": "remind me to do a hollow movies",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "value": "do a hollow movies"
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "remind",
+                        "metadata": ""
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "translate douchebag to Russian": {
+            "_text": "translate douchebag to Russian",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "douchebag"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ]
+            },
+            "confidence": 0.996
+        },
+        "translate break the lack": {
+            "_text": "translate break the lack",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "break the lack"
+                    }
+                ]
+            },
+            "confidence": 0.99
+        },
+        "translate break a leg": {
+            "_text": "translate break a leg",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "break a leg"
+                    }
+                ]
+            },
+            "confidence": 0.989
+        },
+        "translate break a leg to Russian": {
+            "_text": "translate break a leg to Russian",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "break a leg"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "Switch on led": {
+            "_text": "Switch on led",
+            "intent": "home",
+            "entities": {
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ],
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ]
+            },
+            "confidence": 0.942
+        },
+        "sweet of LED": {
+            "_text": "sweet of LED",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "off"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.319
+        },
+        "reach of projector": {
+            "_text": "reach of projector",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "off"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "projector"
+                    }
+                ]
+            },
+            "confidence": 0.683
+        },
+        "Switch on LED": {
+            "_text": "Switch on LED",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.883
+        },
+        "turn led red": {
+            "_text": "turn led red",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "red"
+                    },
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.716
+        },
+        "turn led blue": {
+            "_text": "turn led blue",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ],
+                "home_action": [
+                    {
+                        "value": "blue"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.954
+        },
+        "turn led white": {
+            "_text": "turn led white",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ],
+                "home_action": [
+                    {
+                        "value": "white"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.985
+        },
+        "translate ÐºÑÐ°Ð¹Ð½Ð¾ÑÑÑ": {
+            "_text": "translate ÐºÑÐ°Ð¹Ð½Ð¾ÑÑÑ",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "ÐºÑÐ"
+                    }
+                ],
+                "to": [
+                    {
+                        "value": "Ñ"
+                    }
+                ]
+            },
+            "confidence": 0.976
+        },
+        "Translate крайность": {
+            "_text": "Translate крайность",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "value": "крайность"
+                    }
+                ]
+            },
+            "confidence": 0.985
+        },
+        "Update yourself": {
+            "_text": "Update yourself",
+            "intent": "git",
+            "entities": {
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ],
+                "git_action": [
+                    {
+                        "value": "pull"
+                    }
+                ]
+            },
+            "confidence": 0.813
+        },
+        "Thanks, dear": {
+            "_text": "Thanks, dear",
+            "intent": "reference",
+            "entities": {
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ],
+                "reference_name_type": [
+                    {
+                        "value": "dear"
+                    }
+                ]
+            },
+            "confidence": 0.589
+        },
+        "Thanks, honey": {
+            "_text": "Thanks, honey",
+            "intent": "reference",
+            "entities": {
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ],
+                "reference_name_type": [
+                    {
+                        "value": "gentle"
+                    }
+                ]
+            },
+            "confidence": 0.799
+        },
+        "Turn on projector": {
+            "_text": "Turn on projector",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "projector"
+                    }
+                ]
+            },
+            "confidence": 0.965
+        },
+        "Turn off projector": {
+            "_text": "Turn off projector",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "off"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "projector"
+                    }
+                ]
+            },
+            "confidence": 0.977
+        },
+        "I want to cook Russian salad": {
+            "_text": "I want to cook Russian salad",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "remind",
+                        "metadata": ""
+                    }
+                ],
+                "agenda_entry": [
+                    {
+                        "value": "cook Russian salad"
+                    }
+                ],
+                "planning_tag": [
+                    {
+                        "value": "cook"
+                    }
+                ]
+            },
+            "confidence": 0.872
+        },
+        "Mark second as done": {
+            "_text": "Mark second as done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 2
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.582
+        },
+        "Postpone all tasks": {
+            "_text": "Postpone all tasks",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "Postpone all tasks",
+                        "suggested": true
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "postpone"
+                    }
+                ]
+            },
+            "confidence": 0.977
+        },
+        "remind me to load up my Visa Card": {
+            "_text": "remind me to load up my Visa Card",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "load up my Visa Card",
+                        "suggested": true
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "remind"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "Turn on LED": {
+            "_text": "Turn on LED",
+            "intent": "home",
+            "entities": {
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ],
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ]
+            },
+            "confidence": 0.941
+        },
+        "Switch led white": {
+            "_text": "Switch led white",
+            "intent": "home",
+            "entities": {
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ],
+                "on_off": [
+                    {
+                        "value": "toggle"
+                    }
+                ],
+                "home_action": [
+                    {
+                        "value": "white"
+                    }
+                ]
+            },
+            "confidence": 0.877
+        },
+        "Remind me at 2:30 pm about PC fix": {
+            "_text": "Remind me at 2:30 pm about PC fix",
+            "intent": "wikipedia",
+            "entities": {
+                "wikipedia_search_query": [
+                    {
+                        "type": "value",
+                        "value": "PC fix",
+                        "suggested": true
+                    }
+                ],
+                "wikipedia_action": [
+                    {
+                        "value": "read"
+                    }
+                ]
+            },
+            "confidence": 0.96
+        },
+        "Remind me at 14:30 about PC fix": {
+            "_text": "Remind me at 14:30 about PC fix",
+            "intent": "wikipedia",
+            "entities": {
+                "wikipedia_search_query": [
+                    {
+                        "type": "value",
+                        "value": "PC fix",
+                        "suggested": true
+                    }
+                ],
+                "wikipedia_action": [
+                    {
+                        "value": "read"
+                    }
+                ]
+            },
+            "confidence": 0.965
+        },
+        "Upload yourself": {
+            "_text": "Upload yourself",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "push"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "eve"
+                    }
+                ]
+            },
+            "confidence": 0.924
+        },
+        "Postpone 3rd, 4th, 5th tasks": {
+            "_text": "Postpone 3rd, 4th, 5th tasks",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "postpone"
+                    }
+                ],
+                "ordinal": [
+                    {
+                        "value": 3
+                    },
+                    {
+                        "value": 4
+                    },
+                    {
+                        "value": 5
+                    }
+                ]
+            },
+            "confidence": 0.918
+        },
+        "Thank you": {
+            "_text": "Thank you",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "you"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "thanks"
+                    }
+                ]
+            },
+            "confidence": 0.699
+        },
+        "Remind me to add correct settings to Android Eve": {
+            "_text": "Remind me to add correct settings to Android Eve",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "add correct settings to Android Eve",
+                        "suggested": true
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "remind"
+                    }
+                ]
+            },
+            "confidence": 1
+        },
+        "Remind me to check Internet bills": {
+            "_text": "Remind me to check Internet bills",
+            "intent": "planning",
+            "entities": {
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "check Internet bills",
+                        "suggested": true
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "remind"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "I wanna buy Surface 3 core i7": {
+            "_text": "I wanna buy Surface 3 core i7",
+            "intent": "shopping",
+            "entities": {
+                "search_query": [
+                    {
+                        "type": "value",
+                        "value": "Surface 3 core i7",
+                        "suggested": true
+                    }
+                ],
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ]
+            },
+            "confidence": 0.932
+        },
+        "I wanna buy Nexus 7": {
+            "_text": "I wanna buy Nexus 7",
+            "intent": "shopping",
+            "entities": {
+                "search_query": [
+                    {
+                        "type": "value",
+                        "value": "Nexus 7",
+                        "suggested": true
+                    }
+                ],
+                "shopping_action": [
+                    {
+                        "value": "report"
+                    }
+                ]
+            },
+            "confidence": 0.997
+        },
+        "Remind me to look for barbells and dumbbells": {
+            "_text": "Remind me to look for barbells and dumbbells",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "remind"
+                    }
+                ],
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "look for barbells and dumbbells",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.998
+        },
+        "Turn off led": {
+            "_text": "Turn off led",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "off"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.987
+        },
+        "Turn on led": {
+            "_text": "Turn on led",
+            "intent": "home",
+            "entities": {
+                "on_off": [
+                    {
+                        "value": "on"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.986
+        },
+        "Modules status": {
+            "_text": "Modules status",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "status"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.962
+        },
+        "Upload modules": {
+            "_text": "Upload modules",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "push"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.937
+        },
+        "Switch led redorange": {
+            "_text": "Switch led redorange",
+            "intent": "home",
+            "entities": {
+                "home_action": [
+                    {
+                        "type": "value",
+                        "value": "redorange",
+                        "suggested": true
+                    }
+                ],
+                "on_off": [
+                    {
+                        "value": "toggle"
+                    }
+                ],
+                "home_device": [
+                    {
+                        "value": "led"
+                    }
+                ]
+            },
+            "confidence": 0.749
+        },
+        "what are my plans?": {
+            "_text": "what are my plans?",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "report"
+                    }
+                ]
+            },
+            "confidence": 0.613
+        },
+        "postpone 1st": {
+            "_text": "postpone 1st",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "postpone"
+                    }
+                ],
+                "ordinal": [
+                    {
+                        "value": 1
+                    }
+                ]
+            },
+            "confidence": 0.174
+        },
+        "what are my plans": {
+            "_text": "what are my plans",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "report"
+                    }
+                ]
+            },
+            "confidence": 0.558
+        },
+        "first task is done": {
+            "_text": "first task is done",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ],
+                "ordinal": [
+                    {
+                        "value": 1
+                    }
+                ]
+            },
+            "confidence": 0.975
+        },
+        "postpone all tasks": {
+            "_text": "postpone all tasks",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "postpone"
+                    }
+                ],
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "postpone all tasks",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.965
+        },
+        "upload models": {
+            "_text": "upload models",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "push"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.536
+        }
+    },
+    "pomodoros": 2,
+    "smokedLast": null,
+    "planning": [
+        {
+            "priority": 1,
+            "item_order": 3,
+            "content": "Look for barbells and dumbbells",
+            "id": 158150562,
+            "due_date": "2015-03-26T22:59:59.000Z",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/25",
+            "isOverdue": false,
+            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+        },
+        {
+            "priority": 1,
+            "item_order": 4,
+            "content": "Try PushBullet with tasker",
+            "id": 157963034,
+            "due_date": "2015-03-26T22:59:59.000Z",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/25",
+            "isOverdue": false,
+            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+        },
+        {
+            "priority": 1,
+            "item_order": 5,
+            "content": "Try node-webkit with Google Music",
+            "id": 157963490,
+            "due_date": "2015-03-26T22:59:59.000Z",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/25",
+            "isOverdue": false,
+            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+        },
+        {
+            "priority": 1,
+            "item_order": 1,
+            "content": "Tasker plugin development",
+            "id": 157843309,
+            "due_date": "2015-03-26T22:59:59.000Z",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/25",
+            "isOverdue": false,
+            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+        },
+        {
+            "priority": 1,
+            "item_order": 2,
+            "content": "Do a hollow movies",
+            "id": 157900236,
+            "due_date": "2015-03-26T22:59:59.000Z",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/25",
+            "isOverdue": false,
+            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+        },
+        {
+            "priority": 1,
+            "item_order": 3,
+            "content": "Start development of the financial module",
+            "id": 157968079,
+            "due_date": "2015-03-26T22:59:59.000Z",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/25",
+            "isOverdue": false,
+            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+        }
+    ],
+    "karma": 6
+}
