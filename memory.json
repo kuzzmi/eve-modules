@@ -1828,6 +1828,65 @@
                 ]
             },
             "confidence": 0.536
+        },
+        "goodbye": {
+            "_text": "goodbye",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "type": "value",
+                        "value": "goodbye",
+                        "suggested": true
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "farewell"
+                    }
+                ]
+            },
+            "confidence": 0.386
+        },
+        "hello, honey!": {
+            "_text": "hello, honey!",
+            "intent": "reference",
+            "entities": {
+                "reference_name_type": [
+                    {
+                        "value": "gentle"
+                    }
+                ],
+                "reference_type": [
+                    {
+                        "value": "greeting"
+                    }
+                ]
+            },
+            "confidence": 0.61
+        },
+        "postpone 2nd, 3rd, 6th tasks": {
+            "_text": "postpone 2nd, 3rd, 6th tasks",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "postpone"
+                    }
+                ],
+                "ordinal": [
+                    {
+                        "value": 2
+                    },
+                    {
+                        "value": 3
+                    },
+                    {
+                        "value": 6
+                    }
+                ]
+            },
+            "confidence": 0.914
         }
     },
     "pomodoros": 2,
@@ -1835,82 +1894,40 @@
     "planning": [
         {
             "priority": 1,
-            "item_order": 3,
-            "content": "Look for barbells and dumbbells",
-            "id": 158150562,
-            "due_date": "2015-03-26T22:59:59.000Z",
+            "item_order": 1,
+            "content": "Add correct settings to Android Eve",
+            "id": 158140737,
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
             "date_string": "03/26/2015",
             "indent": 1,
             "label_names": [],
-            "datetime": "03/25",
-            "isOverdue": false,
-            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
-        },
-        {
-            "priority": 1,
-            "item_order": 4,
-            "content": "Try PushBullet with tasker",
-            "id": 157963034,
-            "due_date": "2015-03-26T22:59:59.000Z",
-            "date_string": "03/26/2015",
-            "indent": 1,
-            "label_names": [],
-            "datetime": "03/25",
-            "isOverdue": false,
-            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
-        },
-        {
-            "priority": 1,
-            "item_order": 5,
-            "content": "Try node-webkit with Google Music",
-            "id": 157963490,
-            "due_date": "2015-03-26T22:59:59.000Z",
-            "date_string": "03/26/2015",
-            "indent": 1,
-            "label_names": [],
-            "datetime": "03/25",
-            "isOverdue": false,
-            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+            "datetime": "03/26",
+            "isOverdue": false
         },
         {
             "priority": 1,
             "item_order": 1,
             "content": "Tasker plugin development",
             "id": 157843309,
-            "due_date": "2015-03-26T22:59:59.000Z",
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
             "date_string": "03/26/2015",
             "indent": 1,
             "label_names": [],
-            "datetime": "03/25",
-            "isOverdue": false,
-            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+            "datetime": "03/26",
+            "isOverdue": false
         },
         {
             "priority": 1,
             "item_order": 2,
             "content": "Do a hollow movies",
             "id": 157900236,
-            "due_date": "2015-03-26T22:59:59.000Z",
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
             "date_string": "03/26/2015",
             "indent": 1,
             "label_names": [],
-            "datetime": "03/25",
-            "isOverdue": false,
-            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
-        },
-        {
-            "priority": 1,
-            "item_order": 3,
-            "content": "Start development of the financial module",
-            "id": 157968079,
-            "due_date": "2015-03-26T22:59:59.000Z",
-            "date_string": "03/26/2015",
-            "indent": 1,
-            "label_names": [],
-            "datetime": "03/25",
-            "isOverdue": false,
-            "token": "ca6182849e18b0606fe05c14f407f0f205d7a4f4"
+            "datetime": "03/26",
+            "isOverdue": false
         }
     ],
-    "karma": 6
+    "karma": 8
 }
