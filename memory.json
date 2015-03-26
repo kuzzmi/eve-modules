@@ -1887,6 +1887,23 @@
                 ]
             },
             "confidence": 0.914
+        },
+        "Update modules": {
+            "_text": "Update modules",
+            "intent": "git",
+            "entities": {
+                "git_action": [
+                    {
+                        "value": "pull"
+                    }
+                ],
+                "git_repo": [
+                    {
+                        "value": "modules"
+                    }
+                ]
+            },
+            "confidence": 0.824
         }
     },
     "pomodoros": 2,
