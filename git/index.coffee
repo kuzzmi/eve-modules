@@ -1,12 +1,39 @@
-git        = require 'git-promise'
-gitUtils   = require 'git-promise/util'
-versiony   = require 'versiony'
+git             = require 'git-promise'
+gitUtils        = require 'git-promise/util'
+UpstreamChecker = require 'git-upstream-watch'
+versiony        = require 'versiony'
 
 Home       = require '../home'
 
 { Module, Config } = require '../../eve'
 
 class GitModule extends Module
+
+    attach: ->
+        mins = 1
+
+        coreChecker    = new UpstreamChecker Config.git.repos.eve
+        modulesChecker = new UpstreamChecker Config.git.repos.modules
+
+        setInterval ->
+            coreChecker.check()
+            modulesChecker.check()
+        , mins * 60 * 1000
+
+        coreChecker.on 'divergence', (data) =>
+            @Eve.logger.debug "Detected divergence on core repo of #{data.commits.length} commits between local and upstream branch. Will try to update."
+            GitModule.exec
+                git_action : 'pull'
+                git_repo   : 'eve'
+
+
+        modulesChecker.on 'divergence', (data) =>
+            @Eve.logger.debug "Detected divergence on modules repo of #{data.commits.length} commits between local and upstream branch. Will try to update."
+            GitModule.exec
+                git_action : 'pull'
+                git_repo   : 'modules'
+
+
     
     push: (repo) ->
         cwd = Config.git.repos[repo]
