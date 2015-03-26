@@ -283,88 +283,202 @@
             },
             "confidence": 0.824
         },
-        "Translate отвык": {
-            "_text": "Translate отвык",
-            "intent": "translate",
+        "What are my plans?": {
+            "_text": "What are my plans?",
+            "intent": "planning",
             "entities": {
-                "phrase_to_translate": [
+                "planning_action": [
                     {
-                        "type": "value",
-                        "value": "отвык",
-                        "suggested": true
+                        "value": "report"
                     }
                 ]
             },
-            "confidence": 0.992
+            "confidence": 0.725
         },
-        "Translate Я отвык": {
-            "_text": "Translate Я отвык",
-            "intent": "translate",
+        "Remind me to install and try Coop app": {
+            "_text": "Remind me to install and try Coop app",
+            "intent": "planning",
             "entities": {
-                "phrase_to_translate": [
+                "planning_action": [
                     {
-                        "type": "value",
-                        "value": "Я отвык",
-                        "suggested": true
-                    }
-                ]
-            },
-            "confidence": 0.992
-        },
-        "Translate Я отвык от IDE": {
-            "_text": "Translate Я отвык от IDE",
-            "intent": "translate",
-            "entities": {
-                "phrase_to_translate": [
-                    {
-                        "type": "value",
-                        "value": "Я отвык от IDE",
-                        "suggested": true
-                    }
-                ]
-            },
-            "confidence": 0.992
-        },
-        "Translate  to exploit these limits and take out another order with a credit card payment to ru": {
-            "_text": "Translate  to exploit these limits and take out another order with a credit card payment to ru",
-            "intent": "translate",
-            "entities": {
-                "to": [
-                    {
-                        "value": "russian"
+                        "value": "remind"
                     }
                 ],
-                "phrase_to_translate": [
+                "agenda_entry": [
                     {
                         "type": "value",
-                        "value": "out another order with a credit card payment",
+                        "value": "install and try Coop app",
                         "suggested": true
                     }
                 ]
             },
-            "confidence": 0.864
+            "confidence": 0.999
         },
-        "Translate to exploit these limits and take out another order with a credit card payment to ru": {
-            "_text": "Translate to exploit these limits and take out another order with a credit card payment to ru",
-            "intent": "translate",
+        "Remind me to test this": {
+            "_text": "Remind me to test this",
+            "intent": "planning",
             "entities": {
-                "to": [
+                "planning_action": [
                     {
-                        "value": "russian"
+                        "value": "remind"
                     }
                 ],
-                "phrase_to_translate": [
+                "agenda_entry": [
                     {
                         "type": "value",
-                        "value": "out another order with a credit card payment",
+                        "value": "test this",
                         "suggested": true
                     }
                 ]
             },
-            "confidence": 0.854
+            "confidence": 0.999
+        },
+        "Remind to add cronJob to module": {
+            "_text": "Remind to add cronJob to module",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "remind"
+                    }
+                ],
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "add cronJob to module",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.979
+        },
+        "What are my tasks?": {
+            "_text": "What are my tasks?",
+            "intent": "planning",
+            "entities": {
+                "planning_action": [
+                    {
+                        "value": "report"
+                    }
+                ],
+                "agenda_entry": [
+                    {
+                        "type": "value",
+                        "value": "my tasks",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.97
+        },
+        "mark 4th, 6th as done": {
+            "_text": "mark 4th, 6th as done",
+            "intent": "planning",
+            "entities": {
+                "ordinal": [
+                    {
+                        "value": 4
+                    },
+                    {
+                        "value": 6
+                    }
+                ],
+                "planning_action": [
+                    {
+                        "value": "done"
+                    }
+                ]
+            },
+            "confidence": 0.477
         }
     },
-    "pomodoros": 3,
+    "pomodoros": 2,
     "smokedLast": null,
-    "karma": 0
+    "karma": 0,
+    "planning": [
+        {
+            "priority": 1,
+            "item_order": 1,
+            "content": "Correct account statements",
+            "id": 158232803,
+            "due_date": "Thu 26 Mar 2015 18:00:00 +0000",
+            "date_string": "26 Mar 2015 @ 19:00",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/26 7:00 pm",
+            "isOverdue": false
+        },
+        {
+            "priority": 1,
+            "item_order": 2,
+            "content": "Start adding recurring dates",
+            "id": 158234234,
+            "due_date": "Thu 26 Mar 2015 18:00:00 +0000",
+            "date_string": "26 Mar 2015 @ 19:00",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/26 7:00 pm",
+            "isOverdue": false
+        },
+        {
+            "priority": 1,
+            "item_order": 3,
+            "content": "Install and try Coop app",
+            "id": 158236629,
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
+            "date_string": "today",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/26",
+            "isOverdue": false
+        },
+        {
+            "priority": 1,
+            "item_order": 5,
+            "content": "Add cronJob to module",
+            "id": 158241195,
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
+            "date_string": "today",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/26",
+            "isOverdue": false
+        },
+        {
+            "priority": 1,
+            "item_order": 6,
+            "content": "Test this",
+            "id": 158241259,
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
+            "date_string": "today",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/26",
+            "isOverdue": false
+        },
+        {
+            "priority": 1,
+            "item_order": 2,
+            "content": "Do a hollow movies",
+            "id": 157900236,
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/26",
+            "isOverdue": false
+        },
+        {
+            "priority": 1,
+            "item_order": 4,
+            "content": "Add correct settings to Android Eve",
+            "id": 158140737,
+            "due_date": "Thu 26 Mar 2015 22:59:59 +0000",
+            "date_string": "03/26/2015",
+            "indent": 1,
+            "label_names": [],
+            "datetime": "03/26",
+            "isOverdue": false
+        }
+    ]
 }

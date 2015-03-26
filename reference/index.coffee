@@ -1,5 +1,5 @@
 { Module } = require '../../eve'
-Status = require '../status'
+  Status   = require '../status'
 
 class ReferenceModule extends Module
 

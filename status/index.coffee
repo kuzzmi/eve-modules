@@ -15,6 +15,18 @@ class StatusModule extends Module
         type   = @status_type.value
         value  = @status_value.value
 
+        status = @Eve.memory.get 'status'
+
+        if not status
+            status = {
+                athome : false,
+                awake  : true
+            }
+
+        if status[type] is eval(value) then return
+
+        status[type] = eval(value)
+
         date = new Date()
         hours = date.getHours()
         timeOfDay = switch
@@ -27,6 +39,7 @@ class StatusModule extends Module
         args = [  'sir',  timeOfDay  ]
 
         phrase = @pick code, args
+
         
         if action is 'update' and type is 'awake' and value is 'true'
             @doAtHome 'monitor', 'on'
