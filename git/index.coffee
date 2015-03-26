@@ -10,30 +10,25 @@ Home       = require '../home'
 class GitModule extends Module
 
     attach: ->
-        mins = 1
+        mins = 5
 
-        coreChecker    = new UpstreamChecker Config.git.repos.eve
-        modulesChecker = new UpstreamChecker Config.git.repos.modules
+        for k, v of Config.git.repos
+            checker = new UpstreamChecker v
 
-        setInterval ->
-            coreChecker.check()
-            modulesChecker.check()
-        , mins * 60 * 1000
-
-        coreChecker.on 'divergence', (data) =>
-            @Eve.logger.debug "Detected divergence on core repo of #{data.commits.length} commits between local and upstream branch. Will try to update."
-            GitModule.exec
-                git_action : 'pull'
-                git_repo   : 'eve'
-
-
-        modulesChecker.on 'divergence', (data) =>
-            @Eve.logger.debug "Detected divergence on modules repo of #{data.commits.length} commits between local and upstream branch. Will try to update."
-            GitModule.exec
-                git_action : 'pull'
-                git_repo   : 'modules'
-
-
+            setInterval ->
+                checker.check()
+            , mins * 60 * 1000
+            
+            coreChecker.on 'divergence', (data) =>
+                longMessage = "Detected divergence on #{k} repo of #{data.commits.length} commits between local and upstream branch"
+                shortMessage = "Local repo \"#{k}\" is #{data.commits.length} behind remote"
+                voice = "Repository #{k} is outdated"
+                @Eve.logger.debug longMessage
+                @response 
+                    .addText longMessage
+                    .addVoice voice
+                    .addNotification shortMessage
+                    .send()
     
     push: (repo) ->
         cwd = Config.git.repos[repo]

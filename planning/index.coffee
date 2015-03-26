@@ -21,7 +21,6 @@ class PlanningModule extends Module
 
         job.start()
 
-
     prepare: ->
         @action   = @getValue 'planning_action'
         @item     = @getValue 'agenda_entry'
@@ -54,6 +53,27 @@ class PlanningModule extends Module
 
     stringToDate: (string) ->
         moment new Date string
+
+###
+
+    400 f
+    420 l
+    ---
+    ~ 850/m
+
+    6800 - 1950 - 90 - 850 = 6000 - 2000 - 90 = 3910 - 1000 = 
+
+        2910 * 6  = ~ 18000
+        2910 * 12 = ~ 36000 :(
+
+        _ 04.15
+          09.16
+          =====
+         36 + 18 = 54
+
+    4000 - 
+
+###
 
     exec: ->
         @prepare()

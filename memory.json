@@ -282,9 +282,89 @@
                 ]
             },
             "confidence": 0.824
+        },
+        "Translate отвык": {
+            "_text": "Translate отвык",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "отвык",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "Translate Я отвык": {
+            "_text": "Translate Я отвык",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "Я отвык",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "Translate Я отвык от IDE": {
+            "_text": "Translate Я отвык от IDE",
+            "intent": "translate",
+            "entities": {
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "Я отвык от IDE",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.992
+        },
+        "Translate  to exploit these limits and take out another order with a credit card payment to ru": {
+            "_text": "Translate  to exploit these limits and take out another order with a credit card payment to ru",
+            "intent": "translate",
+            "entities": {
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ],
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "out another order with a credit card payment",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.864
+        },
+        "Translate to exploit these limits and take out another order with a credit card payment to ru": {
+            "_text": "Translate to exploit these limits and take out another order with a credit card payment to ru",
+            "intent": "translate",
+            "entities": {
+                "to": [
+                    {
+                        "value": "russian"
+                    }
+                ],
+                "phrase_to_translate": [
+                    {
+                        "type": "value",
+                        "value": "out another order with a credit card payment",
+                        "suggested": true
+                    }
+                ]
+            },
+            "confidence": 0.854
         }
     },
-    "pomodoros": 2,
+    "pomodoros": 3,
     "smokedLast": null,
     "karma": 0
 }
