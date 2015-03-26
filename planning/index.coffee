@@ -13,13 +13,12 @@ class PlanningModule extends Module
 
     attach: ->
 
-        job = new CronJob '00 45 17 * * 1-5', =>
+        new CronJob '00 45 17 * * 1-5', =>
             @setValue 'planning_action', 'count'
             @setValue    'planning_tag', 'buy_list'
             
             @exec()
-
-        job.start()
+        , null, true
 
     prepare: ->
         @action   = @getValue 'planning_action'
@@ -54,7 +53,7 @@ class PlanningModule extends Module
     stringToDate: (string) ->
         moment new Date string
 
-###
+    ###
 
     400 f
     420 l
@@ -73,7 +72,7 @@ class PlanningModule extends Module
 
     4000 - 
 
-###
+    ###
 
     exec: ->
         @prepare()

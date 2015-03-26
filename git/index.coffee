@@ -2,14 +2,24 @@ git             = require 'git-promise'
 gitUtils        = require 'git-promise/util'
 UpstreamChecker = require 'git-upstream-watch'
 versiony        = require 'versiony'
+CronJob         = require('cron').CronJob
 
-Home       = require '../home'
+Home            = require '../home'
 
 { Module, Config } = require '../../eve'
 
 class GitModule extends Module
 
     attach: ->
+        new CronJob '00 00 17 * * 1-5', =>
+            reminder = "Don't forget to upload me"
+
+            @response
+                .addText reminder
+                .addVoice reminder
+                .send()
+        , null, true
+
         mins = 5
 
         for k, v of Config.git.repos
@@ -19,7 +29,7 @@ class GitModule extends Module
                 checker.check()
             , mins * 60 * 1000
             
-            coreChecker.on 'divergence', (data) =>
+            checker.on 'divergence', (data) =>
                 longMessage = "Detected divergence on #{k} repo of #{data.commits.length} commits between local and upstream branch"
                 shortMessage = "Local repo \"#{k}\" is #{data.commits.length} behind remote"
                 voice = "Repository #{k} is outdated"
