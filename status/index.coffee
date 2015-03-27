@@ -15,17 +15,17 @@ class StatusModule extends Module
         type   = @status_type.value
         value  = @status_value.value
 
-        status = @Eve.memory.get 'status'
+        # status = @Eve.memory.get 'status'
 
-        if not status
-            status = {
-                athome : false,
-                awake  : true
-            }
+        # if not status
+        #     status = {
+        #         athome : false,
+        #         awake  : true
+        #     }
 
-        if status[type] is eval(value) then return
+        # if status[type] is eval(value) then return
 
-        status[type] = eval(value)
+        # status[type] = eval(value)
 
         date = new Date()
         hours = date.getHours()
