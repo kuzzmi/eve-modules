@@ -46,7 +46,7 @@ class Smartphone extends Base
     parse: (title) ->
         colorRegex  = /blue|green|gold|white|yellow|black|silver|gray|grey|cyan|pink|fuchsia/ig
         storageRegex   = /[0-9]{2,3}gb/ig
-        unlockedRegex = /at&?t|verizon/ig
+        unlockedRegex = /at&?t|verizon|sprint/ig
 
         color    = title.match(colorRegex)
         storage  = title.match(storageRegex)

@@ -42,6 +42,9 @@ class MediaModule extends Module
                     .addResponse reminder
                     .send()
 
+    # http://feed.rutracker.org/atom/f/313.atom
+    # HD foreign movies Atom feed
+
     prepare: ->
         @action     = @getValue 'media_action'
         @item       = @getValue 'search_query'

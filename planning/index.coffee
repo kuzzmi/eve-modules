@@ -19,11 +19,28 @@ class PlanningModule extends Module
                 @setValue    'planning_tag', 'buy_list'
                 @exec()
 
+        @startJob '00 20 12 * * 1-5', =>
+            if not status.athome
+                reminder = "Don't miss a lunch! Enjoy your meal, sir."
+                @response
+                    .addText reminder
+                    .addVoice reminder
+                    .addNotification reminder
+                    .send()
+
     prepare: ->
-        @action   = @getValue 'planning_action'
-        @item     = @getValue 'agenda_entry'
-        @priority = @getValue 'planning_priority', 1
-        @tag      = @getValue 'planning_tag'
+        @action     = @getValue 'planning_action'
+        @item       = @getValue 'agenda_entry'
+        @priority   = @getValue 'planning_priority', 1
+        @tag        = @getValue 'planning_tag'
+        @recurring  = @getValue 'planning_recurring'
+        @datestring = @getValue 'planning_datestring'
+        
+        if @duration
+            @duration = @duration.normalized.value 
+        else
+            # one hour is default
+            @duration = 1 * 60 * 60
 
         @query = []
 
@@ -32,19 +49,40 @@ class PlanningModule extends Module
                 item.value
 
         if @datetime
-            type = switch @datetime.type
+            @date_type = switch @datetime.type
                 when 'value'    then @datetime.grain
                 when 'interval' then 'interval'
                 
-            @datetime = switch type
+            @datetime = switch @date_type
                 when 'day'            
-                    @dateToString @datetime.value, 'DD MM YYYY'
+                    @dateToString @datetime.value, 'YYYY-M-DD'
                 when 'interval'       
                     @dateToString @datetime.to.value, 'YYYY-M-DDTHH:mm'
                 when 'second', 'hour', 'minute'
                     @dateToString @datetime.value, 'YYYY-M-DDTHH:mm'
         else
             @datetime = 'today'
+
+        if @recurring 
+            # Should transform { recurring_word + datetime + datetype } to 
+            # a proper datestring like
+            #       every Friday
+            #       every weekend 
+
+            # Let's store recurring word first
+            tempDate = @recurring + " " 
+            switch @date_type
+                when 'day'
+                    tempDate += @getDayFromDate @datetime
+            @datetime = "#{tempDate}"
+            
+    secondsToMinutes: (seconds) ->
+        ~(seconds / 60)       
+
+    getDayFromDate: (date) ->
+        mom = if date is "today" then moment() else @stringToDate date
+
+        mom.format('dddd')
 
     dateToString: (date, format) ->
         moment(date).format format
@@ -150,7 +188,7 @@ class PlanningModule extends Module
         else
             tasks = memory
 
-        for task in tasks            
+        for task in tasks
             task.due_date = moment(new Date(task.due_date)).add(1, 'day')
             if !!~(task.date_string.indexOf '@') || !!~(task.date_string.indexOf 'at')
                 task.date_string = @dateToString task.due_date, 'YYYY-M-DDTHH:mm'
@@ -182,6 +220,10 @@ class PlanningModule extends Module
 
         if @tag
             item.labels = JSON.stringify [config.labels[@tag].id]
+
+        if @duration
+            mins = @secondsToMinutes @duration
+            item.content += " [#{mins} min]"
 
         if @tag is 'cook'
             queue   = []

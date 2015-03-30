@@ -10,6 +10,18 @@ class StatusModule extends Module
             home_device : device
             home_action : action            
 
+    turnOffEverything: ->
+        @doAtHome 'projector_screen', 'up'
+        @doAtHome        'projector', 'off'
+        @doAtHome          'monitor', 'off'
+        @doAtHome            'music', 'pause'        
+        @doAtHome              'led', 'off'
+                
+    usualResume: ->
+        @doAtHome 'monitor', 'on'
+        @doAtHome     'led', 'on'
+        @doAtHome   'music', 'play'
+
     exec: ->
         action = @status_action.value
         type   = @status_type.value
@@ -22,8 +34,6 @@ class StatusModule extends Module
                 athome : false,
                 awake  : true
             }
-
-        # if status[type] is eval(value) then return
 
         status[type] = eval(value)
 
@@ -39,37 +49,29 @@ class StatusModule extends Module
         args = [  'sir',  timeOfDay  ]
 
         phrase = @pick code, args
-
         
         if action is 'update' 
             if type is 'awake' 
 
                 if value is 'true'
-                    @doAtHome 'monitor', 'on'
-                    @doAtHome     'led', 'on'
-                    @doAtHome   'music', 'play'
+                    @usualResume()
                     # @response
                     #     .addResponse Weather.exec()
                     #     
                 else if value is 'false'                   
-                    @doAtHome 'projector_screen', 'up'
-                    @doAtHome        'projector', 'off'
-                    @doAtHome          'monitor', 'off'
-                    @doAtHome            'music', 'pause'        
-                    @doAtHome              'led', 'off'
+                    @turnOffEverything()
 
             if type is 'athome'
                 if value is 'false'
-                    @doAtHome   'led', 'off'
-                    @doAtHome 'music', 'pause'
+                    @turnOffEverything()
 
                 else if value is 'true'
                     tasksAtHome = Planning.exec 
                         planning_action : 'count'
                         planning_tag    : 'home'
 
-                    @doAtHome   'led', 'on'
-                    @doAtHome 'music', 'play'                
+                    @usualResume()
+
                     @response
                         .addResponse tasksAtHome
 
