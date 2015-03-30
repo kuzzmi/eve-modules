@@ -22,11 +22,15 @@ class GitModule extends Module
 
         mins = 5
 
+        cb = ->
+
         for k, v of Config.git.repos
             checker = new UpstreamChecker v
 
+            checker.check cb
+
             setInterval ->
-                checker.check()
+                checker.check cb
             , mins * 60 * 1000
             
             checker.on 'divergence', (data) =>

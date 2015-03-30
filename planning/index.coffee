@@ -2,7 +2,6 @@
 colors     = require 'colors/safe'
 moment     = require 'moment'
 Q          = require 'q'
-CronJob    = require('cron').CronJob
 
 API        = require './api'
 config     = require './config'
@@ -13,12 +12,10 @@ class PlanningModule extends Module
 
     attach: ->
 
-        new CronJob '00 45 17 * * 1-5', =>
+        @startJob '00 45 17 * * 1-5', =>
             @setValue 'planning_action', 'count'
             @setValue    'planning_tag', 'buy_list'
-            
             @exec()
-        , null, true
 
     prepare: ->
         @action   = @getValue 'planning_action'
@@ -52,27 +49,6 @@ class PlanningModule extends Module
 
     stringToDate: (string) ->
         moment new Date string
-
-    ###
-
-    400 f
-    420 l
-    ---
-    ~ 850/m
-
-    6800 - 1950 - 90 - 850 = 6000 - 2000 - 90 = 3910 - 1000 = 
-
-        2910 * 6  = ~ 18000
-        2910 * 12 = ~ 36000 :(
-
-        _ 04.15
-          09.16
-          =====
-         36 + 18 = 54
-
-    4000 - 
-
-    ###
 
     exec: ->
         @prepare()
