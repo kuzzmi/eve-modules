@@ -4,13 +4,14 @@ colors   = require 'colors'
 pos      = require 'pos'
 PlexAPI  = require 'plex-api'
 moment   = require 'moment'
+Watcher  = require 'rss-watcher'
 
 Home     = require '../home'
 Planning = require '../planning'
 
 Movie = require './models/movie'
 
-{ Module } = require '../../eve'
+{ Module, Config } = require '../../eve'
 
 class MediaModule extends Module
 
@@ -18,8 +19,6 @@ class MediaModule extends Module
         lastMovie = @Eve.memory.get 'lastMovie' || null
 
         watchedAMovieThisWeek = no
-
-        @Eve.logger.debug lastMovie
 
         if lastMovie isnt undefined
             _now = moment()
@@ -42,8 +41,19 @@ class MediaModule extends Module
                     .addResponse reminder
                     .send()
 
-    # http://feed.rutracker.org/atom/f/313.atom
-    # HD foreign movies Atom feed
+        for feed in Config.movies.feeds
+            watcher = new Watcher feed
+            watcher.on 'new article', (article) ->
+                message = "Sir, there is another movie appeared in HD"
+
+                @response
+                    .addText article
+                    .addVoice message
+                    .addNotification message
+                    .send()
+
+            watcher.run()
+
 
     prepare: ->
         @action     = @getValue 'media_action'

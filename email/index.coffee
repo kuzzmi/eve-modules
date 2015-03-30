@@ -48,7 +48,7 @@ class EmailModule extends Module
         imap.once 'end', () ->
           console.log('Connection ended');
          
-        imap.connect();
+        # imap.connect();
 
         #Twitter.stream 'statuses/filter', { track: '#eve' }
         #    .then (stream) =>

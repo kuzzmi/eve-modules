@@ -11,7 +11,7 @@ Home            = require '../home'
 class GitModule extends Module
 
     attach: ->
-        new CronJob '00 00 17 * * 1-5', =>
+        new CronJob '00 30 17,8 * * 1-5', =>
             reminder = "Don't forget to upload me"
 
             @response
@@ -47,17 +47,11 @@ class GitModule extends Module
     push: (repo) ->
         cwd = Config.git.repos[repo]
         
-        versiony
-            .from 'package.json'
-            .patch()
-            .to 'package.json'
-        
         git 'add -A', { cwd }
             .then -> git 'commit -m "[Eve] Uploaded at ' + new Date() + '"', { cwd }
             .then -> git 'push origin master', { cwd }
             .then => 
-                info = versiony.end()
-                phrase = 'Uploaded v' + info.version
+                phrase = "Uploaded #{repo}"
 
                 # .addNotification phrase
                 @response
