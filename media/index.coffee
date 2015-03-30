@@ -54,12 +54,11 @@ class MediaModule extends Module
 
             watcher.run()
 
-
     prepare: ->
         @action     = @getValue 'media_action'
         @item       = @getValue 'search_query'
         @type       = @getValue 'media_type'
-        @properties = if @media_properties then @media_properties.map (prop) -> return prop.value
+        @properties = if @media_property then @stimulus.entities.media_property.map (prop) -> prop.value
 
     findMovieOMDB: ->
         search = Q.nbind omdb.search
@@ -180,6 +179,18 @@ class MediaModule extends Module
             .addResponse home
             .send()
 
+    like: ->
+        if @type is "music" and !!~(@properties.indexOf "current")
+            Home.exec
+                home_device : "music"
+                home_action : "thumbs-up"
+
+            message = "I like your taste"
+            @response
+                .addText message
+                .addVoice message
+                .send()
+
     exec: ->
 
         @prepare()
@@ -189,6 +200,8 @@ class MediaModule extends Module
                 when 'play'
                     @findMovie().then (movie) =>
                         if movie and movie instanceof Movie then @turnOn movie
+                when "like"
+                    @like()
             
         else
             movies      = @metadata.metadata.movies

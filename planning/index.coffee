@@ -55,7 +55,7 @@ class PlanningModule extends Module
                 
             @datetime = switch @date_type
                 when 'day'            
-                    @dateToString @datetime.value, 'YYYY-M-DD'
+                    @dateToString @datetime.value, 'YYYY-MM-DD'
                 when 'interval'       
                     @dateToString @datetime.to.value, 'YYYY-M-DDTHH:mm'
                 when 'second', 'hour', 'minute'
@@ -104,10 +104,11 @@ class PlanningModule extends Module
 
     ### Refactor? ###
     report: ->
-
         @query.push @datetime
         @query.push 'overdue'
         @query.push '@' + @tag if @tag
+
+        @Eve.logger.debug @query
 
         API.query @query
             .then (response) =>
@@ -135,12 +136,16 @@ class PlanningModule extends Module
 
                 else
                     memory = tasks
+                    duration = 0
                     tasks.map (task) ->
                         report.push task.textReport()
                         list.push task.content
+                        if task.duration
+                            duration += task.duration
 
                     html = @compileHtml __dirname + '/templates/list.jade', { list: tasks }
-                    report.push colors.yellow('    Total: ' + colors.bold(tasks.length.toString()))
+
+                    report.push "    Total: #{tasks.length.toString()} (#{duration} mins)"
 
                     @response
                         .addText report.join '\r\n'
