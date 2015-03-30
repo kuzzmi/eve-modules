@@ -35,6 +35,8 @@ class WeatherModule extends Module
             catch e
                 deferred.reject e
 
+            console.log data
+
             switch type
                 when 'second'
                     weather = new Forecast data, type
