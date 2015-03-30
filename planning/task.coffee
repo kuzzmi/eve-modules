@@ -23,6 +23,11 @@ class Task
 
         duedate = moment new Date(@due_date)
 
+        durationRegexp = /\[(\d+) \w+]/gi
+
+        if durationRegexp.test @content
+            @duration = parseInt(@content.match(durationRegexp)[0].replace("[", ''))
+
         if !!~(task.date_string.indexOf '@') || !!~(task.date_string.indexOf 'at')  
             @datetime = duedate.format 'MM/DD h:mm a'  
         else

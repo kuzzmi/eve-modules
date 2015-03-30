@@ -77,7 +77,7 @@ class PlanningModule extends Module
             @datetime = "#{tempDate}"
             
     secondsToMinutes: (seconds) ->
-        ~(seconds / 60)       
+        ~~(seconds / 60)       
 
     getDayFromDate: (date) ->
         mom = if date is "today" then moment() else @stringToDate date
