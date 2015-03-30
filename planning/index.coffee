@@ -11,11 +11,13 @@ BigOven    = require './bigoven'
 class PlanningModule extends Module
 
     attach: ->
+        status = @Eve.memory.get 'status'
 
         @startJob '00 45 17 * * 1-5', =>
-            @setValue 'planning_action', 'count'
-            @setValue    'planning_tag', 'buy_list'
-            @exec()
+            if not status.athome
+                @setValue 'planning_action', 'count'
+                @setValue    'planning_tag', 'buy_list'
+                @exec()
 
     prepare: ->
         @action   = @getValue 'planning_action'
@@ -53,7 +55,9 @@ class PlanningModule extends Module
     exec: ->
         @prepare()
 
-        promise = @login().then (token) => @[@action](token)
+        promise = @login()
+            .then (token) => @[@action](token)
+            .catch (err) => console.log err
 
         return promise
 
@@ -67,8 +71,6 @@ class PlanningModule extends Module
         @query.push 'overdue'
         @query.push '@' + @tag if @tag
 
-        @Eve.logger.debug @query
-        
         API.query @query
             .then (response) =>
                 list   = [  ]
@@ -178,8 +180,6 @@ class PlanningModule extends Module
             priority    : @priority
             date_string : @datetime
 
-        @Eve.logger.debug item
-
         if @tag
             item.labels = JSON.stringify [config.labels[@tag].id]
 
@@ -194,7 +194,6 @@ class PlanningModule extends Module
                     console.log ingredients
                     API.addItem item
                         .then (item) =>
-                            @Eve.logger.debug item
 
                             text = @pick [ 'tasks', 'added' ], [ item.content ]
 
@@ -223,8 +222,6 @@ class PlanningModule extends Module
         else
             API.addItem item
                 .then (item) =>
-                    @Eve.logger.debug item
-
                     text = @pick [ 'tasks', 'added' ], [ item.content ]
 
                     @response

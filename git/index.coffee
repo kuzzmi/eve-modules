@@ -35,7 +35,7 @@ class GitModule extends Module
             
             checker.on 'divergence', (data) =>
                 longMessage = "Detected divergence on #{k} repo of #{data.commits.length} commits between local and upstream branch"
-                shortMessage = "Local repo \"#{k}\" is #{data.commits.length} behind remote"
+                shortMessage = "\"#{k}\" is #{data.commits.length} commits behind remote"
                 voice = "Repository #{k} is outdated"
                 @Eve.logger.debug longMessage
                 @response 

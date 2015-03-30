@@ -15,17 +15,17 @@ class StatusModule extends Module
         type   = @status_type.value
         value  = @status_value.value
 
-        # status = @Eve.memory.get 'status'
+        status = @Eve.memory.get 'status'
 
-        # if not status
-        #     status = {
-        #         athome : false,
-        #         awake  : true
-        #     }
+        if not status
+            status = {
+                athome : false,
+                awake  : true
+            }
 
         # if status[type] is eval(value) then return
 
-        # status[type] = eval(value)
+        status[type] = eval(value)
 
         date = new Date()
         hours = date.getHours()
@@ -41,34 +41,39 @@ class StatusModule extends Module
         phrase = @pick code, args
 
         
-        if action is 'update' and type is 'awake' and value is 'true'
-            @doAtHome 'monitor', 'on'
-            @doAtHome     'led', 'on'
-            @doAtHome   'music', 'play'
+        if action is 'update' 
+            if type is 'awake' 
 
-            # @response
-            #     .addResponse Weather.exec()
+                if value is 'true'
+                    @doAtHome 'monitor', 'on'
+                    @doAtHome     'led', 'on'
+                    @doAtHome   'music', 'play'
+                    # @response
+                    #     .addResponse Weather.exec()
+                    #     
+                else if value is 'false'                   
+                    @doAtHome 'projector_screen', 'up'
+                    @doAtHome        'projector', 'off'
+                    @doAtHome          'monitor', 'off'
+                    @doAtHome            'music', 'pause'        
+                    @doAtHome              'led', 'off'
 
-        if action is 'update' and type is 'awake' and value is 'false'
-            @doAtHome 'projector_screen', 'up'
-            @doAtHome        'projector', 'off'
-            @doAtHome          'monitor', 'off'
-            @doAtHome            'music', 'pause'        
-            @doAtHome              'led', 'off'
+            if type is 'athome'
+                if value is 'false'
+                    @doAtHome   'led', 'off'
+                    @doAtHome 'music', 'pause'
 
-        if action is 'update' and type is 'athome' and value is 'false'
-            @doAtHome   'led', 'off'
-            @doAtHome 'music', 'pause'
+                else if value is 'true'
+                    tasksAtHome = Planning.exec 
+                        planning_action : 'count'
+                        planning_tag    : 'home'
 
-        if action is 'update' and type is 'athome' and value is 'true'
-            tasksAtHome = Planning.exec 
-                planning_action : 'count'
-                planning_tag    : 'home'
+                    @doAtHome   'led', 'on'
+                    @doAtHome 'music', 'play'                
+                    @response
+                        .addResponse tasksAtHome
 
-            @doAtHome   'led', 'on'
-            @doAtHome 'music', 'play'                
-            @response
-                .addResponse tasksAtHome
+        @Eve.memory.set 'status', status
 
         @response
             .addText phrase

@@ -1,16 +1,46 @@
-omdb    = require 'omdb'
-Q       = require 'q'
-colors  = require 'colors'
-pos     = require 'pos'
-PlexAPI = require 'plex-api'
+omdb     = require 'omdb'
+Q        = require 'q'
+colors   = require 'colors'
+pos      = require 'pos'
+PlexAPI  = require 'plex-api'
+moment   = require 'moment'
 
-Home    = require '../home'
+Home     = require '../home'
+Planning = require '../planning'
 
 Movie = require './models/movie'
 
 { Module } = require '../../eve'
 
 class MediaModule extends Module
+
+    attach: ->        
+        lastMovie = @Eve.memory.get 'lastMovie' || null
+
+        watchedAMovieThisWeek = no
+
+        @Eve.logger.debug lastMovie
+
+        if lastMovie isnt undefined
+            _now = moment()
+            _then = moment lastMovie
+            if _now.diff(_then, 'days') < 7 
+                watchedAMovieThisWeek = yes
+
+        @startJob '00 30 18 * * *', =>
+            unless watchedAMovieThisWeek
+                message = "Sir, you haven't watched any movie last week. I think you should take a rest. I've added a task for you to watch a movie."
+                reminder = Planning.exec
+                    'planning_action'   : 'remind'
+                    'planning_tag'      : 'home'
+                    'agenda_entry'      : "Watch a movie"
+                    'planning_priority' : 2
+
+                @response
+                    .addText message
+                    .addVoice message
+                    .addResponse reminder
+                    .send()
 
     prepare: ->
         @action     = @getValue 'media_action'
@@ -128,6 +158,8 @@ class MediaModule extends Module
                 home_device: "vlc"
                 home_action: movie.file
         , seconds * 1000
+
+        @Eve.memory.add "lastMovie", moment().format "YYYY-MM-DD"
 
         @response
             .addText  "#{phrase}"
