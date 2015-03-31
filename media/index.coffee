@@ -15,7 +15,7 @@ Movie = require './models/movie'
 
 class MediaModule extends Module
 
-    attach: ->        
+    attach: ->
         lastMovie = @Eve.memory.get 'lastMovie' || null
 
         watchedAMovieThisWeek = no
@@ -23,17 +23,20 @@ class MediaModule extends Module
         if lastMovie isnt undefined
             _now = moment()
             _then = moment lastMovie
-            if _now.diff(_then, 'days') < 7 
+            if _now.diff(_then, 'days') < 7
                 watchedAMovieThisWeek = yes
 
         @startJob '00 30 18 * * *', =>
             unless watchedAMovieThisWeek
-                message = "Sir, you haven't watched any movie last week. I think you should take a rest. I've added a task for you to watch a movie."
+                message = "Sir, you haven't watched any movie last week. I think you should take a rest. I've added a task for you to watch a movie"
                 reminder = Planning.exec
                     'planning_action'   : 'remind'
                     'planning_tag'      : 'home'
                     'agenda_entry'      : "Watch a movie"
                     'planning_priority' : 2
+                    'duration'          :
+                        'normalized'    :
+                            'value'     : 120
 
                 @response
                     .addText message
@@ -67,7 +70,7 @@ class MediaModule extends Module
         search { s: @item, type: 'movie' }
             .then (movies) =>
                 @Eve.logger.debug movies
-                
+
                 items = []
 
                 promises = movies.map (movie) ->
@@ -103,19 +106,19 @@ class MediaModule extends Module
     findMovie: ->
         @findMoviePlex()
             .then(
-                (movies) => if not movies then return @findMovieOMDB() else return movies, 
+                (movies) => if not movies then return @findMovieOMDB() else return movies,
                 (error) => return @findMovieOMDB()
             )
             .then (movies) =>
 
                 if movies instanceof Array
                     movies
-                        .map (m) -> new Movie(m)                    
+                        .map (m) -> new Movie(m)
                         .sort (m1, m2) -> +m1.year - +m2.year
                 else if movies?
                     @Eve.logger.debug movies
                     [ new Movie movies ]
-                else 
+                else
                     []
 
             .then (movies) =>
@@ -159,7 +162,7 @@ class MediaModule extends Module
     turnOn: (movie) ->
 
         phrase = "Prepare to watch \"#{movie.title}\""
-        
+
         home = Home.exec
             home_device: "theater"
             home_action: "on"
@@ -202,7 +205,7 @@ class MediaModule extends Module
                         if movie and movie instanceof Movie then @turnOn movie
                 when "like"
                     @like()
-            
+
         else
             movies      = @metadata.metadata.movies
             message     = @metadata.message
@@ -258,14 +261,14 @@ class MediaModule extends Module
         # movie @item, (err, data) =>
         #     phrase = "I'm trying to #{@action} a #{@type}: \"#{data.Title}\""
 
-        #     report = [ 
+        #     report = [
         #         "I've found this #{@type}:"
         #         "     Title:".yellow + " #{data.Title}"
         #         "      Year:".yellow + " #{data.Year}"
         #         "  Director:".yellow + " #{data.Director}"
         #         ].join '\r\n'
 
-            
+
         ####
         #https://www.npmjs.com/package/node-rtorrent
         #    Here I should start searching the movie in the local library
@@ -277,9 +280,9 @@ class MediaModule extends Module
         #    https://www.npmjs.com/package/tortuga
         #    Take a look at this
         #    for music: https://github.com/jamon/playmusic
-        #    
+        #
         ####
 
-            
+
 
 module.exports = MediaModule
