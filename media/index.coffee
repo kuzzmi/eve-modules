@@ -43,7 +43,7 @@ class MediaModule extends Module
 
         for feed in Config.movies.feeds
             watcher = new Watcher feed
-            watcher.on 'new article', (article) ->
+            watcher.on 'new article', (article) =>
                 message = "Sir, there is another movie appeared in HD"
 
                 @response
