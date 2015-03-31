@@ -3,15 +3,23 @@ config  = require './config'
 Q       = require 'q'
 request = Q.nbind(require 'request')
 
+Task    = require './task'
+
 exports.query = (query) ->
     deferred = Q.defer()
 
     convertedQuery = JSON.stringify(query)
 
-    params = 
+    params =
         queries: convertedQuery
     todoist.request 'query', params
-        .then (result) -> deferred.resolve result
+        .then (result) ->
+            tasks = []
+            response.map (item) -> tasks = tasks.concat item.data
+            # Convert all items from tasks to Task
+            tasks = tasks.map (task) -> new Task task
+
+            deferred.resolve tasks
 
     deferred.promise
 
@@ -41,6 +49,9 @@ exports.login = ->
 
 exports.addItem = (item) ->
     deferred = Q.defer()
+
+    if not item instanceof Task
+        console.warn "Item is not an Item :("
 
     todoist.request 'addItem', item
         .then deferred.resolve
@@ -78,6 +89,18 @@ getUncompletedItems: (id) ->
     deferred.promise
 
 exports.getCat = (config) ->
+    _request = Q.nbind request
+
+    _request params
+        .then (response) ->
+            data = JSON.parse response[1]
+
+        , (err) ->
+            console.log err.stack
+
+        .catch (err) ->
+            console.log err.stack
+
     request config
         .then (response) ->
             data = response[1].split('\n')

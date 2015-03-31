@@ -13,7 +13,7 @@ class Task
             @date_string
             @indent
         } = task
-
+        @duration = 0
         @label_names = []
 
         for id in task.labels
@@ -28,14 +28,14 @@ class Task
         if durationRegexp.test @content
             @duration = parseInt(@content.match(durationRegexp)[0].replace("[", ''))
 
-        if !!~(task.date_string.indexOf '@') || !!~(task.date_string.indexOf 'at')  
-            @datetime = duedate.format 'MM/DD h:mm a'  
+        if !!~(task.date_string.indexOf '@') || !!~(task.date_string.indexOf 'at')
+            @datetime = duedate.format 'MM/DD h:mm a'
         else
             @datetime = duedate.format 'MM/DD'
 
         @isOverdue = duedate < new Date()
         ###
-        
+
             "due_date": null,
             "user_id": 1,
             "collapsed": 0,
@@ -51,21 +51,21 @@ class Task
             "date_string": ""
 
         ###
-    
+
     textReport: ->
         string = "    "
         if @isOverdue
             string += "#{colors.bold.red(@datetime)}"
         else
             string += "#{colors.bold.green(@datetime)}"
-        
+
         indent = new Array(@indent + 1).join('  ')
-        
+
         string += "#{indent}#{@content}"
 
         for label in @label_names
             string += colors.green " @#{label}"
-        
+
         string
 
 module.exports = Task

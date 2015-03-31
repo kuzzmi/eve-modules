@@ -35,12 +35,12 @@ class PlanningModule extends Module
         @tag        = @getValue 'planning_tag'
         @recurring  = @getValue 'planning_recurring'
         @datestring = @getValue 'planning_datestring'
-        
+
         if @duration
-            @duration = @duration.normalized.value 
+            @duration = @duration.normalized.value
         else
-            # one hour is default
-            @duration = 1 * 60 * 60
+            # half an hour is default
+            @duration = 0.5 * 60 * 60
 
         @query = []
 
@@ -52,32 +52,37 @@ class PlanningModule extends Module
             @date_type = switch @datetime.type
                 when 'value'    then @datetime.grain
                 when 'interval' then 'interval'
-                
+
             @datetime = switch @date_type
-                when 'day'            
+                when 'day'
                     @dateToString @datetime.value, 'YYYY-MM-DD'
-                when 'interval'       
+                when 'interval'
                     @dateToString @datetime.to.value, 'YYYY-M-DDTHH:mm'
                 when 'second', 'hour', 'minute'
                     @dateToString @datetime.value, 'YYYY-M-DDTHH:mm'
         else
-            @datetime = 'today'
+            @datetime = @dateToString null, 'YYYY-MM-DD'
 
-        if @recurring 
-            # Should transform { recurring_word + datetime + datetype } to 
+        if @recurring
+            # Should transform { recurring_word + datetime + datetype } to
             # a proper datestring like
             #       every Friday
-            #       every weekend 
+            #       every weekend
 
             # Let's store recurring word first
-            tempDate = @recurring + " " 
+            tempDate = @recurring + " "
             switch @date_type
                 when 'day'
                     tempDate += @getDayFromDate @datetime
             @datetime = "#{tempDate}"
-            
+
+    addDayToDatestring: (date) ->
+        date = @stringToDate date
+        date.add 1, 'days'
+        date
+
     secondsToMinutes: (seconds) ->
-        ~~(seconds / 60)       
+        ~~(seconds / 60)
 
     getDayFromDate: (date) ->
         mom = if date is "today" then moment() else @stringToDate date
@@ -85,6 +90,7 @@ class PlanningModule extends Module
         mom.format('dddd')
 
     dateToString: (date, format) ->
+        date ?= new Date()
         moment(date).format format
 
     stringToDate: (string) ->
@@ -111,18 +117,13 @@ class PlanningModule extends Module
         @Eve.logger.debug @query
 
         API.query @query
-            .then (response) =>
+            .then (tasks) =>
                 list   = [  ]
-                tasks  = [  ]
                 report = ['']
 
-                response.map (item) -> tasks = tasks.concat item.data
-
-                tasks = tasks.map (task) -> new Task(task)
-
                 if tasks.length is 0
-                    API.getCat(Config.catoverflow)
-                        .then (cat) => 
+                    API.getCat Config.catoverflow
+                        .then (cat) =>
                             html = @compileHtml "#{__dirname}/templates/nothing.jade", { cat }
                             phrase = 'You have no tasks'
 
@@ -161,7 +162,7 @@ class PlanningModule extends Module
 
         memory = @Eve.memory.get 'planning'
 
-        items = 
+        items =
             ids: []
             token: token
 
@@ -202,9 +203,7 @@ class PlanningModule extends Module
             task.token = token
             queue.push(
                 API.updateItem task
-                    .then (item) =>
-                        @response
-                            .addText "#{item.content} is postponed"
+                    .then (item) => @response.addText "#{item.content} is postponed"
             )
 
         Q.all queue
@@ -212,12 +211,12 @@ class PlanningModule extends Module
                 @response
                     .addVoice 'Done, sir'
                     .send()
-        
+
     remind: (token) ->
         capitalize = (string) ->
             string[0].toUpperCase() + string.slice(1)
 
-        item = 
+        item =
             content     : capitalize @item
             token       : token
             priority    : @priority
@@ -229,6 +228,28 @@ class PlanningModule extends Module
         if @duration
             mins = @secondsToMinutes @duration
             item.content += " [#{mins} min]"
+
+        @query.push @datetime
+        @query.push 'overdue'
+        @query.push '@' + @tag if @tag
+
+        API.query @query
+            .then (tasks) =>
+                duration = tasks.reduce(
+                    (prev, cur, index) ->
+                        prev + cur.duration
+                    , 0
+                )
+
+                if duration > 360
+                    message = "I'm not sure if you manage with this"
+                    @response
+                        .addText message
+                        .addVoice message
+                        .send()
+
+            .catch (err) =>
+                @Eve.logger.debug err.stack
 
         if @tag is 'cook'
             queue   = []
@@ -245,7 +266,7 @@ class PlanningModule extends Module
                             text = @pick [ 'tasks', 'added' ], [ item.content ]
 
                             for ingredient in ingredients
-                                buyTask = 
+                                buyTask =
                                     content     : "Buy #{ingredient} @buy_list"
                                     token       : token
                                     indent      : 2
@@ -253,7 +274,7 @@ class PlanningModule extends Module
                                     date_string : @datetime
 
                                 API.addItem buyTask
-                                    .then (task) -> 
+                                    .then (task) ->
                                         ids.push task.id
                                         console.log task.content
 
@@ -284,12 +305,12 @@ class PlanningModule extends Module
 
         API.query @query
             .then (tasks) =>
-                
+
                 items = []
                 tasks.map (item) -> items = items.concat item.data
 
                 list = items.map (task) -> new Task(task)
-                    
+
                 amount = list.length
 
                 code = [ 'tasks', 'count' ]
@@ -297,7 +318,7 @@ class PlanningModule extends Module
 
                 if @tag
                     phrase = @pick code, [ amount, @tag ]
-                else 
+                else
                     phrase = @pick code, [ amount, 'all groups' ]
 
                 html = @compileHtml __dirname + '/templates/list.jade', { list }
