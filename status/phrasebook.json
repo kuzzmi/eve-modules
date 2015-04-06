@@ -3,9 +3,9 @@
         "awake": {
             "true": [
                 "Good morning, {0}",
+                "Good morning, {0}, and have a nice day",
                 "Good morning",
-                "Good morning. What a lovely morning, isn't it?",
-                "Good morning, {0}. What a lovely morning, isn't it?"
+                "Good morning and have a nice day"
             ], 
             "false": [
                 "Good night, {0}",

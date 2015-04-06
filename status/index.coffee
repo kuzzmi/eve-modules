@@ -55,9 +55,9 @@ class StatusModule extends Module
 
                 if value is 'true'
                     @usualResume()
-                    # @response
-                    #     .addResponse Weather.exec()
-                    #
+                    @response
+                        .addResponse Weather.exec()
+                    
                 else if value is 'false'
                     @turnOffEverything()
 
