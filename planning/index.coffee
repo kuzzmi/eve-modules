@@ -36,7 +36,7 @@ class PlanningModule extends Module
         @recurring  = @getValue 'planning_recurring'
         @datestring = @getValue 'planning_datestring'
 
-        if @duration
+        if @duration and @duration.normalized
             @duration = @duration.normalized.value
         else
             # half an hour is default

@@ -44,18 +44,18 @@ class MediaModule extends Module
                     .addResponse reminder
                     .send()
 
-        for feed in Config.movies.feeds
-            watcher = new Watcher feed
-            watcher.on 'new article', (article) =>
-                message = "Sir, there is another movie appeared in HD"
-
-                @response
-                    .addText article
-                    .addVoice message
-                    .addNotification message
-                    .send()
-
-            watcher.run()
+#         for feed in Config.movies.feeds
+#             watcher = new Watcher feed
+#             watcher.on 'new article', (article) =>
+#                 message = "Sir, there is another movie appeared in HD"
+# 
+#                 @response
+#                     .addText article
+#                     .addVoice message
+#                     .addNotification message
+#                     .send()
+# 
+#             watcher.run()
 
     prepare: ->
         @action     = @getValue 'media_action'

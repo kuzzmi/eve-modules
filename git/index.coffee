@@ -28,11 +28,9 @@ class GitModule extends Module
             checker = new UpstreamChecker v
 
             checker.check cb
-
             setInterval ->
                 checker.check cb
             , mins * 60 * 1000
-            
             checker.on 'divergence', (data) =>
                 longMessage = "Detected divergence on #{k} repo of #{data.commits.length} commits between local and upstream branch"
                 shortMessage = "\"#{k}\" is #{data.commits.length} commits behind remote"
