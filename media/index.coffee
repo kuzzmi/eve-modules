@@ -16,7 +16,7 @@ Movie = require './models/movie'
 class MediaModule extends Module
 
     attach: ->
-        lastMovie = @Eve.memory.get 'lastMovie' || null
+        lastMovie = @Eve.memory.get 'lastMovieDate' || null
 
         watchedAMovieThisWeek = no
 
@@ -163,6 +163,10 @@ class MediaModule extends Module
 
         phrase = "Prepare to watch \"#{movie.title}\""
 
+        Home.exec
+            home_device: "music"
+            home_action: "pause"
+
         home = Home.exec
             home_device: "theater"
             home_action: "on"
@@ -174,7 +178,8 @@ class MediaModule extends Module
                 home_action: movie.file
         , seconds * 1000
 
-        @Eve.memory.add "lastMovie", moment().format "YYYY-MM-DD"
+        @Eve.memory.add "lastMovieDate", moment().format "YYYY-MM-DD"
+        @Eve.memory.add "lastMovie", movie.file
 
         @response
             .addText  "#{phrase}"
