@@ -48,13 +48,13 @@ class MediaModule extends Module
 #             watcher = new Watcher feed
 #             watcher.on 'new article', (article) =>
 #                 message = "Sir, there is another movie appeared in HD"
-# 
+#
 #                 @response
 #                     .addText article
 #                     .addVoice message
 #                     .addNotification message
 #                     .send()
-# 
+#
 #             watcher.run()
 
     prepare: ->
@@ -109,6 +109,7 @@ class MediaModule extends Module
                 (movies) => if not movies then return @findMovieOMDB() else return movies,
                 (error) => return @findMovieOMDB()
             )
+
             .then (movies) =>
 
                 if movies instanceof Array
@@ -199,15 +200,30 @@ class MediaModule extends Module
                 .addVoice message
                 .send()
 
+    play: ->
+
+        switch @type
+            when "movie"
+                @findMovie().then (movie) =>
+                    if movie and movie instanceof Movie then @turnOn movie
+            when "music"
+                if !!~(@properties.indexOf "random")
+                    Home.exec
+                        home_device : "music"
+                        home_action : "lucky-mix"
+                else
+                    Home.exec
+                        home_device : "music"
+                        home_action : "play"
+
     exec: ->
 
         @prepare()
 
         if not @metadata
             switch @action
-                when 'play'
-                    @findMovie().then (movie) =>
-                        if movie and movie instanceof Movie then @turnOn movie
+                when "play"
+                    @play()
                 when "like"
                     @like()
 
@@ -230,7 +246,7 @@ class MediaModule extends Module
             nouns   = taggedWords.filter (tw) -> tw[1] is 'NN'
             numbers = taggedWords.filter (tw) -> tw[1] is 'CD'
 
-            found = -1;
+            found = -1
 
             for ordinal in ordinals
                 for noun in nouns when nouns
