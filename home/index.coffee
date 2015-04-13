@@ -23,7 +23,7 @@ class HomeModule extends Module
                 .send()
         else
             connection = exec.connection Config.raspberry
-                
+
             exec root + command, connection
                 .pipe(process.stdout)
 
@@ -37,19 +37,19 @@ class HomeModule extends Module
 
     projector: (command) ->
         com = "proj#{command}"
-        
+
         @sshCommand com
 
     projector_screen: (command) ->
         com = "screen#{command}"
-        
+
         @sshCommand com
 
     theater: (command) ->
         com = "theater_#{command}"
-        
+
         @sshCommand com
-    
+
     vlc: (source) ->
         source = decodeURIComponent source
 
@@ -60,13 +60,15 @@ class HomeModule extends Module
         setTimeout =>
             spawn 'xset', "dpms force #{command}".split ' '
         , 2500
-                
+
         return @response
 
     music: (command) ->
 
-        spawn 'nuvolaplayer3ctl', [ 'action', command ]
-                
+        player = spawn 'nuvolaplayer3ctl', [ 'action', command ]
+        player.on "data", (stderr) =>
+            console.log stderr
+
         return @response
 
     exec: ->

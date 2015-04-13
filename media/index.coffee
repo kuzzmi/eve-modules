@@ -16,17 +16,18 @@ Movie = require './models/movie'
 class MediaModule extends Module
 
     attach: ->
-        lastMovie = @Eve.memory.get 'lastMovieDate' || null
-
-        watchedAMovieThisWeek = no
-
-        if lastMovie isnt undefined
-            _now = moment()
-            _then = moment lastMovie
-            if _now.diff(_then, 'days') < 7
-                watchedAMovieThisWeek = yes
 
         @startJob '00 30 18 * * *', =>
+            lastMovie = @Eve.memory.get 'lastMovieDate' || null
+
+            watchedAMovieThisWeek = no
+
+            if lastMovie isnt undefined
+                _now = moment()
+                _then = moment lastMovie
+                if _now.diff(_then, 'days') < 7
+                    watchedAMovieThisWeek = yes
+
             unless watchedAMovieThisWeek
                 message = "Sir, you haven't watched any movie last week. I think you should take a rest. I've added a task for you to watch a movie"
                 reminder = Planning.exec
@@ -62,6 +63,9 @@ class MediaModule extends Module
         @item       = @getValue 'search_query'
         @type       = @getValue 'media_type'
         @properties = if @media_property then @stimulus.entities.media_property.map (prop) -> prop.value
+
+    checkProperty: (property) ->
+        return @properties && !!~(@properties.indexOf property)
 
     findMovieOMDB: ->
         search = Q.nbind omdb.search
@@ -207,7 +211,7 @@ class MediaModule extends Module
                 @findMovie().then (movie) =>
                     if movie and movie instanceof Movie then @turnOn movie
             when "music"
-                if !!~(@properties.indexOf "random")
+                if @checkProperty "random"
                     Home.exec
                         home_device : "music"
                         home_action : "lucky-mix"
@@ -215,6 +219,16 @@ class MediaModule extends Module
                     Home.exec
                         home_device : "music"
                         home_action : "play"
+    pause: ->
+
+        switch @type
+            when "movie"
+                # todo
+                () ->
+            when "music"
+                Home.exec
+                    home_device : "music"
+                    home_action : "pause"
 
     exec: ->
 
@@ -226,6 +240,8 @@ class MediaModule extends Module
                     @play()
                 when "like"
                     @like()
+                when "pause"
+                    @pause()
 
         else
             movies      = @metadata.metadata.movies
