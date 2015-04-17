@@ -35,7 +35,9 @@ class WeatherModule extends Module
             catch e
                 deferred.reject e
 
-            console.log data
+            if type isnt "second" && !data.list
+                console.log url
+                console.log data
 
             switch type
                 when 'second'
@@ -54,6 +56,8 @@ class WeatherModule extends Module
                         item
                     )[daysFromNow + 1]
 
+                    console.log(daysFromNow + 1)
+
                     weather = new Forecast weather, type
 
                 when 'hour'
@@ -71,8 +75,6 @@ class WeatherModule extends Module
                         from : new Date(@datetime.from.value).getTime() // 1000,
                         to   : new Date(@datetime.to.value).getTime() // 1000
                     }
-
-                    @Eve.logger.debug data.city
 
                     weather = data.list.map((item) ->
                             item.name = data.city.name
@@ -94,7 +96,7 @@ class WeatherModule extends Module
 
         deferred.promise
 
-    exec: ->
+    prepare: ->
 
         @details   = if @weather_details   then   @weather_details.value else 'all'
         @verbosity = if @weather_verbosity then @weather_verbosity.value else null
@@ -105,21 +107,25 @@ class WeatherModule extends Module
             grain : 'day'
             value : new Date()
 
+    exec: ->
+
+        @prepare()
+
         @forecast()
             .then (result) =>
+
                 { text, voice } = result
 
                 phrase = @pick voice.code, voice.args
 
                 text ||= phrase
 
-                @Eve.logger.debug voice
-
                 @response
                     .addText text
                     .addVoice phrase
                     .addNotification phrase
                     .send()
+
             , (error) =>
 
                 pharse = "Error in getting weather"

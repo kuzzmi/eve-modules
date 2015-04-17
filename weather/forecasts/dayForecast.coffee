@@ -1,5 +1,4 @@
-`colors = require('colors');
-
+`
 function DayForecast(params) {
     this.dt = new Date(params.dt * 1000);
     this.temp = {
@@ -45,17 +44,17 @@ DayForecast.prototype.toString = function(params) {
 
             textReport = [
                 '',
-                '              ' + this.cityName.yellow.bold,
-                '     morning'.yellow + ': ' + this.temp.morning,
-                '         day'.yellow + ': ' + this.temp.day,
-                '     evening'.yellow + ': ' + this.temp.evening,
-                '       night'.yellow + ': ' + this.temp.night,
-                ' description'.yellow + ': ' + this.description
+                '              ' + this.cityName,
+                '     morning' + ': ' + this.temp.morning,
+                '         day' + ': ' + this.temp.day,
+                '     evening' + ': ' + this.temp.evening,
+                '       night' + ': ' + this.temp.night,
+                ' description' + ': ' + this.description
             ].join('\r\n');
 
             break;
         case 'temperature':
-            var threshold = 4;
+            var threshold = 10;
 
             var cold = [];
 

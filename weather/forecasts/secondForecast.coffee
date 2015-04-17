@@ -33,7 +33,7 @@ SecondForecast.prototype.toString = function(params) {
 
             break;
         case 'temperature':
-            var threshold = 4;
+            var threshold = 10;
             var cold = this.temp <= threshold;
             var verbosity = params.verbosity ?
                 params.verbosity.replace('yes_no_', '') : undefined;

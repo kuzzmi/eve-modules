@@ -9,7 +9,7 @@ Watcher  = require 'rss-watcher'
 Home     = require '../home'
 Planning = require '../planning'
 
-Movie = require './models/movie'
+Movie = require './classes/movie'
 
 { Module, Config } = require '../../eve'
 
@@ -17,18 +17,20 @@ class MediaModule extends Module
 
     attach: ->
 
-        @startJob '00 30 18 * * *', =>
+#         @startJob '*/2 * * * * *', =>
+        @startJob "00 30 18 * * *", =>
             lastMovie = @Eve.memory.get 'lastMovieDate' || null
 
             watchedAMovieThisWeek = no
 
-            if lastMovie isnt undefined
-                _now = moment()
-                _then = moment lastMovie
+            _now  = moment()
+            _then = moment lastMovie
+
+            if not lastMovie
                 if _now.diff(_then, 'days') < 7
                     watchedAMovieThisWeek = yes
 
-            unless watchedAMovieThisWeek
+            if !watchedAMovieThisWeek
                 message = "Sir, you haven't watched any movie last week. I think you should take a rest. I've added a task for you to watch a movie"
                 reminder = Planning.exec
                     'planning_action'   : 'remind'
@@ -99,6 +101,15 @@ class MediaModule extends Module
                 # movies = []
                 movies
 
+#         if params.attributes
+#             { @year, @title } = params.attributes
+#
+#             @file = params.media[0].part[0].attributes.file
+#
+#         else
+#             { @year, @title, @poster, @imdb } = params
+
+
     findMoviePlex: ->
         client = new PlexAPI '192.168.0.4'
 
@@ -115,7 +126,6 @@ class MediaModule extends Module
             )
 
             .then (movies) =>
-
                 if movies instanceof Array
                     movies
                         .map (m) -> new Movie(m)
