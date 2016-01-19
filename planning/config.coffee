@@ -1,6 +1,6 @@
 module.exports = 
-    email: 'kuzzmi@gmail.com'
-    password: '27061963'
+    email: ''
+    password: ''
 
     projects:
         INBOX: 108901406
